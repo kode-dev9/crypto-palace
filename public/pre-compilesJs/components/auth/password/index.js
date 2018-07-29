@@ -1,0 +1,2 @@
+require('./lostPassword');
+require('./resetPassword');
