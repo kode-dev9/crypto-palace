@@ -1,6 +1,6 @@
 /node_modules
 /public/sass
-/public/src
+/public/pre-compilesJs
 .env
 yarn-error.log
 dump.rdb
