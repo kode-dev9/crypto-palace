@@ -66,8 +66,8 @@ router.route('/testmail')
 // This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
     var auth = {
       auth: {
-        api_key: 'key-65a0b329159d8d5f4e2b01a16ed23d5b',
-        domain: 'sandbox1237c07a52b14270b070e179e5460489.mailgun.org'
+        api_key: process.env.MAILGUN_APIKEY,
+        domain: process.env.MAILGUN_DOMAIN
       },
       //proxy: 'http://user:pass@localhost:8080' // optional proxy, default is false
     }
