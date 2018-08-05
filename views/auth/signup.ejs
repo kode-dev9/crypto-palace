@@ -1,9 +1,11 @@
 <% include ../partials/head %>
 <title>Crypto Palace - Sign Up</title>
 </head>
-<body>
+<body class="vertical-layout vertical-content-menu 2-columns   menu-expanded fixed-navbar"
+data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
+<% include ../partials/header %>
 <div id="app-root">
-    <signup></signup>
+    <signup :uid="'<%= uid %>'" :token="'<%= token %>'"></signup>
 </div>
 <script src="/js/main-bundle.min.js"></script>
 </body>

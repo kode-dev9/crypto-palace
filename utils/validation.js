@@ -121,6 +121,108 @@ class FormValidation {
 
     callback(hasErrors && errors)
   }
+
+  validateSetting(valObj, callback){
+    let errors = {}
+    let hasErrors = false
+
+    let fields = valObj.fields
+
+    if(!fields.siteName.val || fields.siteName.val.trim() === ''){
+      errors.siteName = fields.siteName.message
+      hasErrors = true;
+    }
+
+    if(!fields.siteOwner.val || fields.siteOwner.val.trim() === ''){
+      errors.siteOwner = fields.siteOwner.message
+      hasErrors = true;
+    }
+
+    if(!fields.siteDescription.val || fields.siteDescription.val.trim() === ''){
+      errors.siteDescription = fields.siteDescription.message
+      hasErrors = true;
+    }
+
+    if(!fields.siteMail.val || fields.siteMail.val.trim() === ''){
+      errors.siteMail = fields.siteMail.message
+      hasErrors = true;
+    }
+
+    if(!fields.facebookUri.val || fields.facebookUri.val.trim() === ''){
+      errors.facebookUri = fields.facebookUri.message
+      hasErrors = true;
+    }
+
+    if(!fields.twitterUri.val || fields.twitterUri.val.trim() === ''){
+      errors.twitterUri = fields.twitterUri.message
+      hasErrors = true;
+    }
+
+    if(!fields.googleUri.val || fields.googleUri.val.trim() === ''){
+      errors.googleUri = fields.googleUri.message
+      hasErrors = true;
+    }
+
+    callback(hasErrors && errors)
+  }
+
+  validateTestimony(valObj, callback){
+    let errors = {};
+    let hasErrors = false;
+
+    let fields = valObj.fields;
+
+    if(!fields.message.val || fields.message.val.trim() === ''){
+      errors.message = fields.message.message
+      hasErrors = true;
+    }
+
+    callback(hasErrors && errors)
+  }
+
+  validateProfileDetails(valObj, callback){
+    let errors = {}
+    let hasErrors = false
+
+    let fields = valObj.fields
+
+    if(!fields.firstName.val || fields.firstName.val.trim() === ''){
+      errors.firstName = fields.firstName.message
+      hasErrors = true
+    }
+
+    if(!fields.lastName.val || fields.lastName.val.trim() === ''){
+      errors.lastName = fields.lastName.message
+      hasErrors = true
+    }
+
+    if(!fields.bitcoinAddress.val || fields.bitcoinAddress.val.trim() === ''){
+      errors.bitcoinAddress = fields.bitcoinAddress.message
+      hasErrors = true
+    }
+
+    callback(hasErrors && errors)
+  }
+
+  validateProfilePassword(valObj, callback){
+    let errrors = {}
+    let hasErrors = false
+
+    let fields = valObj.fields
+
+    if(!fields.password.val || fields.password.val.trim() === ''){
+      errors.password = fields.password.message
+      hasErrors = true;
+    }
+
+    if ((!fields.confirmPassword.val || fields.confirmPassword.val.trim() === '') || fields.password.val !== fields.confirmPassword.val) {
+      errors.password = 'Password and retyped password don\'t match';
+      errors.password = 'Password and retyped password don\'t match';
+      hasErrors = true;
+    }
+
+    callback(hasErrors && errors)
+  }
 }
 
 module.exports = {

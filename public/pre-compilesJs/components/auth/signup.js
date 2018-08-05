@@ -613,7 +613,7 @@ Vue.component('signup', {
     </b-form>
   </b-card>
     </div>`,
-  props: [],
+  props: ['uid', 'token'],
   data(){
     return {
       dismissSecs: 10,
@@ -626,7 +626,9 @@ Vue.component('signup', {
         email: '',
         password: '',
         bitcoinAddress: '',
-        country: ''
+        country: '',
+        referralToken: this.token,
+        uid: this.uid
       },
       formErrors: [],
       isLoading: false,
@@ -644,6 +646,7 @@ Vue.component('signup', {
     onSubmit: function(){
       this.showDismissibleAlert=true
       this.isLoading = true
+      console.log(this.formData)
 
       axios.post('/signup', this.formData)
         .then(res => {

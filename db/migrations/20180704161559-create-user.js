@@ -52,9 +52,25 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      isDeleted: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       isBanned: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+      },
+      totalReferrals: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      referred: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      referralBonus: {
+        type: Sequelize.DECIMAL(15, 2),
+        defaultValue: 0.00
       },
       createdAt: {
         allowNull: false,

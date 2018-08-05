@@ -1,0 +1,12 @@
+<% include ../../../partials/head %>
+<title>Crypto Palace - Site Setting</title>
+</head>
+<body class="vertical-layout vertical-content-menu 2-columns   menu-expanded fixed-navbar"
+data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
+
+<div id="app-root">
+<setting-form :setting="{siteName:'<%= settings.siteName %>',siteOwner:'<%= settings.siteOwner %>',siteDescription:'<%= settings.siteDescription %>',siteMail:'<%= settings.siteMail %>',facebookUri:'<%= settings.facebookUri %>',twitterUri:'<%= settings.twitterUri %>',googleUri:'<%= settings.googleUri %>', bitcoinAddress: '<%= settings.bitcoinAddress %>'}"></setting-form>
+</div>
+<script src="/js/main-bundle.min.js"></script>
+</body>
+</html>

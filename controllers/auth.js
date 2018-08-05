@@ -2,14 +2,25 @@ const {validateForm} = require('../utils/validation'),
   models = require('../db/models'),
   bcrypt = require('bcrypt'),
   verificationToken = require('../utils/verificationToken'),
+  refferalLink = require('../utils/referralToken')
   twoFA = require('../utils/2faToken');
 
 const redis = require('redis');
 const redisClient = redis.createClient({host : 'localhost', port : 6379});
 
-module.exports = {
+const { sendEmail } = require('../utils/mail');
+
+module.exports = (io) => {
+  return {
   index: (req, res) => {
-    res.render('auth/signup')
+    var token
+    var uid
+
+    if(req.query.token && req.query.uid){
+      token = req.query.token
+      uid = req.query.uid
+    }
+    res.render('auth/signup', {uid: uid, token: token})
   },
   create: (req, res) => {
     validateForm.validateSignup({
@@ -36,27 +47,134 @@ module.exports = {
 
             let hashedPassword = bcrypt.hashSync(req.body.password, 10); // generate hashed password
 
-            verificationToken(req.body.email)
-              .then(token => {
-                //send mails
-                let encodedMail = new Buffer(req.body.email).toString('base64');
-                let verificationLink = 'http://'+req.get('host')+'/verify?m='+encodedMail+'&id='+token;
+              refferalLink(req.body.email).then(link => {
+                models.User.create({
+                  name: req.body.name,
+                  email: req.body.email,
+                  password: hashedPassword,
+                  bitcoinAddress: req.body.bitcoinAddress,
+                  lastName: req.body.lastName,
+                  firstName: req.body.firstName,
+                  country: req.body.country
+                }).then(user => {
+                  verificationToken(req.body.email)
+                    .then(token => {
+                    //send mails
+                    let encodedMail = new Buffer(req.body.email).toString('base64');
+                    let verificationLink = 'http://'+req.get('host')+'/verify?m='+encodedMail+'&id='+token;
+                    console.log(verificationLink)
+                    // let verifyMail = async () => {
+                    //   try {
+                    //     await sendEmail('confiyobo@gmail.com',
+                    //       'CryptPalace - Account Setup',
+                    //       'accountVerification',
+                    //       {verificationLink: verificationLink});
 
-                console.log(verificationLink)
+                    //     console.log('MAIL GREETING')
+                    //   }catch (e) {
+                    //     console.log('Mail Error', e)
+                    //   }
+                    // };
+
+                    // verifyMail()
+                  }).catch(err => console.log("COULD NOT SEND MAIL."));
+                  
+                  // let newUserMail = async () => {
+                  //   try {
+                  //     await sendEmail('confiyobo@gmail.com',
+                  //       'CryptPalace - New user',
+                  //       'newUserAlert');
+
+                  //     console.log('MAIL GREETING')
+                  //   }catch (e) {
+                  //     console.log('Mail Error', e)
+                  //   }
+                  // };
+
+                  // newUserMail()
+
+                  if(req.body.referralToken && req.body.uid){
+                    let userEmail = new Buffer(req.body.referralToken, 'base64').toString('ascii');
+                    
+                    redisClient.exists('refferalLink.'+userEmail,function(err,result) {
+                      if(!err) {
+                        if(result === 1) {
+                          redisClient.get('refferalLink.'+userEmail,function(err,result){
+                          
+                            if(result === '?uid='+req.body.uid+'&token='+req.body.referralToken){
+                              
+                              models.User.findOne({where: { email: userEmail}}).then(refferalUser => {
+                                models.Refferal.create({
+                                  referral: refferalUser.id,
+                                  user: user.id
+                                }).then(refferal => {
+                                  let msg = 'A user '+user.name+', has registered under your referral link.<br>Referral bonus will be received once he/she completes a transaction.'
+                                  models.Notification.create({
+                                    recipient: refferalUser.id,
+                                    title: 'New Referral',
+                                    message: msg
+                                  }).then(notification => {
+                                    io.on('connection', function(socket){
+                                      io.emit('newNotification.'+notification.recipient, {message: msg})
+                                    })
+
+                                    models.User.update({
+                                      referred: true
+                                    }, {where: {
+                                      id: user.id
+                                    }})
+
+                                    models.User.update({
+                                      totalReferrals: models.Sequelize.literal('totalReferrals + 1')
+                                    }, {where: {id: refferalUser.id}}).then(user => {
+
+                                    })
+
+                                    // return models.sequelize.transaction({autocommit: false}).then(function(t){
+                                    //   return models.User.findOne({where: {
+                                    //     id: refferalUser.id
+                                    //   }}, {lock: t.LOCK.UPDATE, transaction: t}).then(function(user){
+                                    //     user.totalReferrals += 1;
+                                    //     user.save({transaction: t});
+                                        
+                                    //   })
+                                    // })
+
+                                  //   return models.sequelize.transaction({autocommit: false}, function (t) {
+                                  //     return models.User.update({
+                                  //       name: 'Ho'
+                                  //     }, {
+                                  //       where: {
+                                  //           id: 7
+                                  //       },
+                                  //       transaction: t     //second parameter is "options", so transaction must be in it
+                                  //   }).then((user) => {
+                                  //     console.log(user)
+                                  //   })
+      
+                                  // })
+  
+                                    // models.sequelize.transaction(function (t) {
+
+                                    //   models.User.findOne({where: {
+                                    //         id: refferalUser.id
+                                    //       }, lock: t.LOCK.UPDATE, transaction: t }).then(function(user){
+  
+                                          
+                                    //     })
+                                    //   })
+                                  })
+                                })
+                              })
+                            }
+                          });
+                        }
+                      }
+                    });
+                  }
+                  res.status(200).json({success: true, response: 'Account created successfully. Please use the link sent to email address to complete your account setup.'})
+                })
               })
-              .catch(err => console.log("COULD NOT SEND MAIL."));
-
-            return models.User.create({
-              name: req.body.name,
-              email: req.body.email,
-              password: hashedPassword,
-              bitcoinAddress: req.body.bitcoinAddress,
-              lastName: req.body.lastName,
-              firstName: req.body.firstName,
-              country: req.body.country
-            }).then(user => {
-              res.status(200).json({success: true, response: 'Account created successfully. Please use the link sent to email address to complete your account setup.'})
-            })
           })
         })
       })
@@ -66,20 +184,35 @@ module.exports = {
     let email = req.query.email;
 
     models.User.findOne({where: {email: email}}).then(user => {
-      if(!user) return res.status(422).json({success: false, response: 'Verification link could not be resent.'});
+      if(!user) return res.render('auth/accountVerification', {message: 'Verification link could not be resent.'});
 
+      if(user.isActive) return res.render('auth/accountVerification', {message: 'Accont already verified.'})
       verificationToken(user.email)
         .then(token => {
           //send mails
           let encodedMail = new Buffer(email).toString('base64');
           let verificationLink = 'http://'+req.get('host')+'/verify?m='+encodedMail+'&id='+token;
           console.log(verificationLink)
+          let verifyMail = async () => {
+            try {
+              await sendEmail('confiyobo@gmail.com',
+                'CryptPalace - Account Verification',
+                'accountVerification',
+                {verificationLink: verificationLink});
+
+              console.log('MAIL GREETING')
+            }catch (e) {
+              console.log('Mail Error', e)
+            }
+          };
+
+          verifyMail()
 
           return token
         })
         .catch(err => console.log("COULD NOT SEND MAIL."));
 
-      res.status(200).json({success: true, response: 'Verification link resent.'})
+        res.render('auth/accountVerification', {message: 'Verification link resent.'})
     });
   },
   verifyAccount: (req, res) => {
@@ -151,6 +284,21 @@ module.exports = {
             let encodedMail = new Buffer(user.email).toString('base64');
             let link = 'http://'+req.get('host')+'/2fa?m='+encodedMail+'&id='+token;
             console.log(link)
+
+            let tfaMail = async () => {
+              try {
+                await sendEmail('confiyobo@gmail.com',
+                  'CryptPalace - 2 Factor Authentication',
+                  'tfa',
+                  {tfaLink: link});
+
+                console.log('MAIL GREETING')
+              }catch (e) {
+                console.log('Mail Error', e)
+              }
+            };
+
+            tfaMail()
           })
           .catch(err => console.log("COULD NOT SEND MAIL."));
 
@@ -191,4 +339,6 @@ module.exports = {
       res.send(404)
     }
   }
+}
+
 };

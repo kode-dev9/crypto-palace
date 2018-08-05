@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     adminType: {
       type: DataTypes.INTEGER,
       allowNull: true
@@ -48,10 +52,33 @@ module.exports = (sequelize, DataTypes) => {
     isBanned: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    totalReferrals: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    referred: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    referralBonus: {
+      type: DataTypes.DECIMAL(15, 2),
+      defaultValue: 0.00
     }
   }, {});
   User.associate = function(models) {
+    User.hasMany(models.Testimony, {
+      foreignKey: 'user',
+      as: 'testimonies',
+    });
 
+    User.hasMany(models.Refferal, {
+      foreignKey: 'user',
+      as: 'user',
+    }, {
+      foreignKey: 'referral',
+      as: 'referral',
+    });
   };
 
   User.prototype.toJSON = function() {

@@ -9,7 +9,7 @@ let TwoFactorToken = (user) => {
       crypto.randomBytes(9, function(err, buf) {
         let token = buf.toString('hex');
         client.set("twoFactorToken."+user.email, token+'-'+user.id); // add token to redis store
-        client.expire("twoFactorToken."+user, 60*60*2); //add expiration of 48 hours to the token
+        client.expire("twoFactorToken."+user, 60*60*2); //add expiration of 2 hours to the token
 
         resolve(token)
       });

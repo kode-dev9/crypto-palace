@@ -4,104 +4,103 @@
 
 const express = require('express'),
   router = new express.Router(),
-  authCtrl = require('../controllers/auth'),
   accountCtrl = require('../controllers/account'),
-  {isAuthenticated, authCheck} = require('../middlewares/auth'),
+  {isAuthenticated, authCheck, isAdmin} = require('../middlewares/auth'),
+  {siteSetting} = require('../middlewares/settings'),
   lostPasswordCtrl = require('../controllers/lostPassword');
 
-//Begin authentication routing
-router.route('/signup')
-  .get(authCheck, authCtrl.index)
-  .post(authCtrl.create);
+const { sendEmail } = require('../utils/mail');
 
-router.route('/signin')
-  .get(authCheck, authCtrl.signin)
-  .post(authCtrl.authenticate);
+module.exports = (io) => {
 
-router.route('/resend/verification')
-  .get(authCtrl.resendVerificationToken);
+  const settingCtrl = require('../controllers/setting')(io)
+  const authCtrl = require('../controllers/auth')(io)
+  router.route('/site/setting')
+    .put(settingCtrl.save);
 
-router.route('/verify')
-  .get(authCtrl.verifyAccount);
+  router.route('/setting/site')
+    .get(settingCtrl.index)
 
-router.route('/lost-password')
-  .get(authCheck, lostPasswordCtrl.index)
-  .post(lostPasswordCtrl.checkEmail);
+  router.route('/site/setting/qrcode')
+    .post(settingCtrl.saveQr);
 
-router.route('/lost-password/reset')
-  .get(authCheck, lostPasswordCtrl.resetPage)
-  .post(lostPasswordCtrl.reset);
+  router.use(siteSetting)
+  //Begin authentication routing
+  router.route('/signup')
+    .get(authCheck, authCtrl.index)
+    .post(authCtrl.create);
 
-router.route('/2fa')
-  .get(authCtrl.tfa);
+  router.route('/signin')
+    .get(authCheck, authCtrl.signin)
+    .post(authCtrl.authenticate);
 
-//End authentication routing
+  router.route('/resend/verification')
+    .get(authCtrl.resendVerificationToken);
 
-router.route('/')
-  .get((req, res) => {
-    res.render('index')
+  router.route('/verify')
+    .get(authCtrl.verifyAccount);
+
+  router.route('/lost-password')
+    .get(authCheck, lostPasswordCtrl.index)
+    .post(lostPasswordCtrl.checkEmail);
+
+  router.route('/lost-password/reset')
+    .get(authCheck, lostPasswordCtrl.resetPage)
+    .post(lostPasswordCtrl.reset);
+
+  router.route('/2fa')
+    .get(authCtrl.tfa);
+
+  //End authentication routing
+
+  router.route('/')
+    .get((req, res) => {
+      res.render('index')
+    });
+
+  router.route('/signout')
+    .post((req, res) => {
+      if (req.session.user && req.cookies.user_sid) {
+        res.clearCookie('user_sid');
+        req.session.destroy(function(err) {
+          if(err) {
+            return next(err);
+          } else {
+            return res.redirect('/signin');
+          }
+        });
+      } else {
+        res.redirect('/signin');
+      }
   });
 
-router.route('/signout')
-  .get((req, res) => {
-    if (req.session.user && req.cookies.user_sid) {
-      res.clearCookie('user_sid');
-      req.session.destroy(function(err) {
-        if(err) {
-          return next(err);
-        } else {
-          return res.redirect('/signin');
-        }
-      });
-    } else {
-      res.redirect('/signin');
-    }
-});
+  router.route('/site/setting')
+    .put(settingCtrl.save);
 
-router.route('/testmail')
-  .get((req, res) => {
-    var nodemailer = require('nodemailer');
-    var mg = require('nodemailer-mailgun-transport');
+  router.route('/setting/site')
+    .get(settingCtrl.index)
 
-// This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
-    var auth = {
-      auth: {
-        api_key: process.env.MAILGUN_APIKEY,
-        domain: process.env.MAILGUN_DOMAIN
-      },
-      //proxy: 'http://user:pass@localhost:8080' // optional proxy, default is false
-    }
-
-    var nodemailerMailgun = nodemailer.createTransport(mg(auth));
-
-    nodemailerMailgun.sendMail({
-      from: 'myemail@example.com',
-      to: 'confiyobo@gmail.com',
-      subject: 'Hey you, awesome!',
-      'h:Reply-To': 'myemail@example.com',
-      //You can use "html:" to send HTML email content. It's magic!
-      html: '<b>Wow Big powerful letters</b>',
-      //You can use "text:" to send plain-text content. It's oldschool!
-      text: 'Mailgun rocks, pow pow!'
-    }, function (err, info) {
-      if (err) {
-        console.log('Error: ' + err);
-      }
-      else {
-        console.log('Response: ' + info);
-      }
-
-      res.send('hai')
-    });
-  })
+  router.route('/site/setting/qrcode')
+    .put(settingCtrl.saveQr);
 
 
-router.use(isAuthenticated);
-router.route('/profile')
-  .get(accountCtrl.index);
+  router.use(isAuthenticated);
+  router.route('/profile')
+    .get(accountCtrl.index);
 
-router.route('/dashboard')
-  .get(accountCtrl.index);
+  router.route('/dashboard')
+    .get(accountCtrl.index);
 
+  router.use('/testimony', require('./testimony'))
 
-module.exports = router;
+  /*
+  * Admin routing
+  */
+  router.use(isAdmin);
+  router.route('/admin/setting')
+    .get(settingCtrl.index);
+
+  router.use('/admin/users', require('./users'))
+
+  return router
+};

@@ -3,7 +3,7 @@ const fs        = require('fs'),
   Sequelize = require('sequelize'),
   basename  = path.basename(__filename),
   env       = process.env.NODE_ENV || 'development',
-  config    = require(__dirname + '/../config/config.json')[env],
+  config    = require(__dirname + '/../config/config')[env],
   db        = {};
 
 let sequelize = new Sequelize('crypto_palace', 'root', '', config);

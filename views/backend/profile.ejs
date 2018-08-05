@@ -1,1 +1,19 @@
-Hello
+<% include ../partials/head %>
+<title>Crypto Palace - Site Setting</title>
+</head>
+<body class="vertical-layout vertical-content-menu 2-columns   menu-expanded fixed-navbar"
+data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
+<% include ../partials/header %>
+<% include ../partials/sidebar %>
+<div id="app-root" class="content-body">
+    Hello <%= user.name %><br><br><a href="/packages">Package</a>
+
+    <% if(user.isAdmin) {%>
+    <a href="/admin/setting">Settings</a>
+    <% } %>
+    <br><br><signout></signout>
+</div>
+<% include ../partials/footer %>
+<script src="/js/main-bundle.min.js"></script>
+</body>
+</html>
