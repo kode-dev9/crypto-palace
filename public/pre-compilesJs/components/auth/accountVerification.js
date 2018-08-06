@@ -1,10 +1,6 @@
 Vue.component('account-verification', {
   template: `<div>
-<b-card title="Account Verification"
-          style="max-width: 20rem;"
-          class="mb-3">
-    <b-alert variant="info" v-html="message" show></b-alert>
-  </b-card>
+<b-alert variant="info" v-html="message" show></b-alert>
     </div>`,
   props: ['message'],
   data(){

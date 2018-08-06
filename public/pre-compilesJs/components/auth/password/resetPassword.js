@@ -1,50 +1,44 @@
 Vue.component('reset-passsword', {
-  template: `<div>
-<b-card title="Lost Password"
-          style="max-width: 20rem;"
-          class="mb-3">
-          <b-alert variant="success" :show="formResponse.success">{{formResponse.message}}</b-alert>
-    <b-form @submit.prevent="onSubmit" v-if="showForm">
-   
-    <b-alert :show="dismissCountDown"
+  template: `
+<div class="card-body">
+<b-alert variant="success" :show="formResponse.success">{{formResponse.message}}</b-alert>
+                                    <form class="form-horizontal" @submit.prevent="onSubmit" v-if="showForm">
+                                    <b-alert :show="dismissCountDown"
              dismissible
              variant="warning"
              @dismissed="dismissCountDown=0"
              @dismiss-count-down="countDownChanged">
       {{formResponse.message}}
     </b-alert>
-      <b-form-group id="password"
-                    label="Enter New Password:"
-                    label-for="password">
-        <b-form-input id="password"
-                      type="password"
-                      v-model="formData.password"
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="password" class="form-control form-control-lg input-lg" id="password"
+                                                   v-model="formData.password"
                       required
                       placeholder="New Password"
                       :class="{'is-invalid': formErrors.password }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.password">
+                                            <div class="form-control-position">
+                                                <i class="la la-key"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.password">
                                         <strong>{{ formErrors.password }}</strong>
                                     </span>
-      </b-form-group>
-      <b-form-group id="confirmPassword"
-                    label="Retype Password:"
-                    label-for="confirmPassword">
-        <b-form-input id="confirmPassword"
-                      type="password"
-                      v-model="formData.confirmPassword"
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="password" class="form-control form-control-lg input-lg" id="confirmPassword"
+                                                   v-model="formData.confirmPassword"
                       required
                       placeholder="Retype Password"
                       :class="{'is-invalid': formErrors.confirmPassword }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.confirmPassword">
+                                            <div class="form-control-position">
+                                                <i class="la la-key"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.confirmPassword">
                                         <strong>{{ formErrors.confirmPassword }}</strong>
                                     </span>
-      </b-form-group>
-      <b-button type="submit" variant="primary" :disabled="isLoading">Submit</b-button>
-    </b-form>
-  </b-card>
-    </div>`,
+                                        </fieldset>
+                                        <button type="submit" class="btn btn-outline-info btn-lg btn-block" :disabled="isLoading"><i class="ft-unlock"></i> Reset Password</button>
+                                    </form>
+                                </div>`,
   props: ['email'],
   data(){
     return {

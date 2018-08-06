@@ -1,38 +1,33 @@
 Vue.component('lost-passsword', {
-  template: `<div>
-<b-card title="Lost Password"
-          style="max-width: 20rem;"
-          class="mb-3">
-          <b-alert variant="success" :show="formResponse.success">{{formResponse.message}}</b-alert>
-          <div v-if="message"><b-alert variant="info" show>{{message}}</b-alert></div>
-          
-    <b-form @submit.prevent="onSubmit" v-if="showForm">
-   
-    <b-alert :show="dismissCountDown"
+  template: `
+<div class="card-body">
+<b-alert variant="success" :show="formResponse.success">{{formResponse.message}}</b-alert>
+<div v-if="message"><b-alert variant="info" show>{{message}}</b-alert></div>
+                                    <form class="form-horizontal" @submit.prevent="onSubmit" v-if="showForm">
+                                    <b-alert :show="dismissCountDown"
              dismissible
              variant="warning"
              @dismissed="dismissCountDown=0"
              @dismiss-count-down="countDownChanged">
       {{formResponse.message}}
     </b-alert>
-      <b-form-group id="email"
-                    label="Email address:"
-                    label-for="email">
-        <b-form-input id="email"
-                      type="email"
-                      v-model="formData.email"
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="email" class="form-control form-control-lg input-lg" id="email"
+                                                   v-model="formData.email"
                       required
-                      placeholder="Enter email"
+                      placeholder="Your E-mail Address"
                       :class="{'is-invalid': formErrors.email }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.email">
+                                            <div class="form-control-position">
+                                                <i class="ft-mail"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.email">
                                         <strong>{{ formErrors.email }}</strong>
                                     </span>
-      </b-form-group>
-      <b-button type="submit" variant="primary" :disabled="isLoading">Submit</b-button>
-    </b-form>
-  </b-card>
-    </div>`,
+                                        </fieldset>
+                                        <button type="submit" class="btn btn-outline-info btn-lg btn-block" :disabled="isLoading"><i class="ft-unlock"></i> Recover Password</button>
+                                    </form>
+                                </div>
+`,
   props: ['message'],
   data(){
     return {

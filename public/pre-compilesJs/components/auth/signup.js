@@ -1,92 +1,76 @@
 Vue.component('signup', {
-  template: `<div>
-<b-card title="Sign Up"
-          style="max-width: 20rem;"
-          class="mb-3">
-          <b-alert variant="success" :show="formResponse.success">{{formResponse.message}}</b-alert>
-    <b-form @submit.prevent="onSubmit" v-if="showForm">
-
-    <b-alert :show="dismissCountDown"
+  template: `<div class="card-body">
+<b-alert variant="success" :show="formResponse.success">{{formResponse.message}}</b-alert>
+                 <form class="form-horizontal form-simple" @submit.prevent="onSubmit" v-if="showForm">
+                 <b-alert :show="dismissCountDown"
              dismissible
              variant="warning"
              @dismissed="dismissCountDown=0"
              @dismiss-count-down="countDownChanged">
       {{formResponse.message}}
     </b-alert>
-    <b-form-group id="name"
-                    label="Username:"
-                    label-for="name">
-        <b-form-input id="name"
-                      type="text"
-                      v-model="formData.name"
-                      required
-                      placeholder="Enter name"
-                      :class="{'is-invalid': formErrors.name }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.name">
+                                        <fieldset class="form-group position-relative has-icon-left mb-1">
+                                            <input type="text" class="form-control form-control-lg input-lg" id="name" v-model="formData.name"
+                      :class="{'is-invalid': formErrors.name }"placeholder="User Name">
+                                            <div class="form-control-position">
+                                                <i class="ft-user"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.name">
                                         <strong>{{ formErrors.name }}</strong>
                                     </span>
-      </b-form-group>
-      <b-form-group id="firstName"
-                    label="First Name:"
-                    label-for="firstName">
-        <b-form-input id="firstName"
-                      type="text"
-                      v-model="formData.firstName"
-                      required
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left mb-1">
+                                            <input type="text" class="form-control form-control-lg input-lg" id="firstName"
+                                                  v-model="formData.firstName"
                       placeholder="Enter first name"
-                      :class="{'is-invalid': formErrors.firstName }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.firstName">
+                      :class="{'is-invalid': formErrors.firstName }" required>
+                                            <div class="form-control-position">
+                                                <i class="ft-user"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.firstName">
                                         <strong>{{ formErrors.firstName }}</strong>
                                     </span>
-      </b-form-group>
-      <b-form-group id="lastName"
-                    label="Last Name:"
-                    label-for="lastName">
-        <b-form-input id="lastName"
-                      type="text"
-                      v-model="formData.lastName"
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left mb-1">
+                                            <input type="text" class="form-control form-control-lg input-lg" id="lastName"
+                                                   v-model="formData.lastName"
                       required
                       placeholder="Enter last name"
                       :class="{'is-invalid': formErrors.lastName }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.lastName">
+                                            <div class="form-control-position">
+                                                <i class="ft-user"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.lastName">
                                         <strong>{{ formErrors.lastName }}</strong>
                                     </span>
-      </b-form-group>
-      <b-form-group id="email"
-                    label="Email address:"
-                    label-for="email">
-        <b-form-input id="email"
-                      type="email"
-                      v-model="formData.email"
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left mb-1">
+                                            <input type="email" class="form-control form-control-lg input-lg" id="email"
+                                                   v-model="formData.email"
                       required
-                      placeholder="Enter email"
+                      placeholder="E-mail Address"
                       :class="{'is-invalid': formErrors.email }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.email">
+                                            <div class="form-control-position">
+                                                <i class="ft-mail"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.email">
                                         <strong>{{ formErrors.email }}</strong>
                                     </span>
-      </b-form-group>
-      <b-form-group id="password"
-                    label="Password:"
-                    label-for="password">
-        <b-form-input id="password"
-                      type="password"
-                      v-model="formData.password"
-                      
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left mb-1">
+                                            <input type="password" class="form-control form-control-lg input-lg" id="password"
+                                                   v-model="formData.password"
                       placeholder="Enter password"
                       :class="{'is-invalid': formErrors.password }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.password">
+                                            <div class="form-control-position">
+                                                <i class="la la-key"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.password">
                                         <strong>{{ formErrors.password }}</strong>
                                     </span>
-      </b-form-group>
-      <b-form-group id="country"
-                    label="Country:"
-                    label-for="country">
-      <select id="country" class="form-control" v-model="formData.country" :class="{'is-invalid': formErrors.country }" required>
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <select id="country" class="form-control form-control-lg input-lg" v-model="formData.country" :class="{'is-invalid': formErrors.country }" required>
                                     <option value="" selected disabled>Select Country -</option>
                                     <option value="Nigeria">Nigeria</option>
 
@@ -591,28 +575,26 @@ Vue.component('signup', {
 
                                     <option value="Zimbabwe">Zimbabwe</option>
                                 </select>
-                                <span class="invalid-feedback" v-if="formErrors.country">
+                                            
+                                            <span class="invalid-feedback" v-if="formErrors.country">
                                         <strong>{{ formErrors.country }}</strong>
                                     </span>
-     </b-form-group>
-     <b-form-group id="bitcoinAddress"
-                    label="Bitcoin Address:"
-                    label-for="bitcoinAddress">
-        <b-form-input id="bitcoinAddress"
-                      type="text"
-                      v-model="formData.bitcoinAddress"
-                      
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="text" class="form-control form-control-lg input-lg" id="bitcoinAddress"
+                                                   v-model="formData.bitcoinAddress"
                       placeholder="Enter bitcoin address"
                       :class="{'is-invalid': formErrors.bitcoinAddress }">
-        </b-form-input>
-        <span class="invalid-feedback" v-if="formErrors.bitcoinAddress">
+                                            <div class="form-control-position">
+                                                <i class="la la-bitcoin"></i>
+                                            </div>
+                                            <span class="invalid-feedback" v-if="formErrors.bitcoinAddress">
                                         <strong>{{ formErrors.bitcoinAddress }}</strong>
                                     </span>
-      </b-form-group>
-      <b-button type="submit" variant="primary" :disabled="isLoading">Submit</b-button>
-    </b-form>
-  </b-card>
-    </div>`,
+                                        </fieldset>
+                                        <button type="submit" class="btn btn-info btn-lg btn-block"  :disabled="isLoading"><i class="ft-unlock"></i> Sign Up</button>
+                                    </form>
+                                </div>`,
   props: ['uid', 'token'],
   data(){
     return {

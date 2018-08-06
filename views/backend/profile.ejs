@@ -1,17 +1,29 @@
 <% include ../partials/head %>
-<title>Crypto Palace - Site Setting</title>
+<title><%= settings.siteName %> - Dashboard</title>
 </head>
 <body class="vertical-layout vertical-content-menu 2-columns   menu-expanded fixed-navbar"
-data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
-<% include ../partials/header %>
-<% include ../partials/sidebar %>
-<div id="app-root" class="content-body">
-    Hello <%= user.name %><br><br><a href="/packages">Package</a>
+      data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
+<div id="app-root">
+    <% include ../partials/header %>
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <% include ../partials/sidebar %>
+            <div class="content-body">
+                Hello bkjgk ggk fjhfk fk fkv hk hjfkjhhvj ffu  yfuififufifui lg   goug f f fuo u ffifyuf ufyf ufg jvj gjiyfifyf yfyfyf<%= user.name %>
+                <br><br><a href="/packages">Package</a><br>
+                <br>
 
-    <% if(user.isAdmin) {%>
-    <a href="/admin/setting">Settings</a>
-    <% } %>
-    <br><br><signout></signout>
+                <br>
+
+                <% if(user.isAdmin) {%>
+                <a href="/admin/setting">Settings</a>
+                <% } %>
+                <br><br>
+            </div>
+        </div>
+    </div>
 </div>
 <% include ../partials/footer %>
 <script src="/js/main-bundle.min.js"></script>

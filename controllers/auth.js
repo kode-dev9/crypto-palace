@@ -63,46 +63,46 @@ module.exports = (io) => {
                     let encodedMail = new Buffer(req.body.email).toString('base64');
                     let verificationLink = 'http://'+req.get('host')+'/verify?m='+encodedMail+'&id='+token;
                     console.log(verificationLink)
-                    // let verifyMail = async () => {
-                    //   try {
-                    //     await sendEmail('confiyobo@gmail.com',
-                    //       'CryptPalace - Account Setup',
-                    //       'accountVerification',
-                    //       {verificationLink: verificationLink});
+                    let verifyMail = async () => {
+                      try {
+                        await sendEmail('confiyobo@gmail.com',
+                          'CryptPalace - Account Setup',
+                          'accountVerification',
+                          {verificationLink: verificationLink});
 
-                    //     console.log('MAIL GREETING')
-                    //   }catch (e) {
-                    //     console.log('Mail Error', e)
-                    //   }
-                    // };
+                        console.log('MAIL GREETING')
+                      }catch (e) {
+                        console.log('Mail Error', e)
+                      }
+                    };
 
-                    // verifyMail()
+                    verifyMail()
                   }).catch(err => console.log("COULD NOT SEND MAIL."));
-                  
-                  // let newUserMail = async () => {
-                  //   try {
-                  //     await sendEmail('confiyobo@gmail.com',
-                  //       'CryptPalace - New user',
-                  //       'newUserAlert');
 
-                  //     console.log('MAIL GREETING')
-                  //   }catch (e) {
-                  //     console.log('Mail Error', e)
-                  //   }
-                  // };
+                  let newUserMail = async () => {
+                    try {
+                      await sendEmail('confiyobo@gmail.com',
+                        'CryptPalace - New user',
+                        'newUserAlert');
 
-                  // newUserMail()
+                      console.log('MAIL GREETING')
+                    }catch (e) {
+                      console.log('Mail Error', e)
+                    }
+                  };
+
+                  newUserMail()
 
                   if(req.body.referralToken && req.body.uid){
                     let userEmail = new Buffer(req.body.referralToken, 'base64').toString('ascii');
-                    
+
                     redisClient.exists('refferalLink.'+userEmail,function(err,result) {
                       if(!err) {
                         if(result === 1) {
                           redisClient.get('refferalLink.'+userEmail,function(err,result){
-                          
+
                             if(result === '?uid='+req.body.uid+'&token='+req.body.referralToken){
-                              
+
                               models.User.findOne({where: { email: userEmail}}).then(refferalUser => {
                                 models.Refferal.create({
                                   referral: refferalUser.id,
@@ -130,39 +130,7 @@ module.exports = (io) => {
 
                                     })
 
-                                    // return models.sequelize.transaction({autocommit: false}).then(function(t){
-                                    //   return models.User.findOne({where: {
-                                    //     id: refferalUser.id
-                                    //   }}, {lock: t.LOCK.UPDATE, transaction: t}).then(function(user){
-                                    //     user.totalReferrals += 1;
-                                    //     user.save({transaction: t});
-                                        
-                                    //   })
-                                    // })
 
-                                  //   return models.sequelize.transaction({autocommit: false}, function (t) {
-                                  //     return models.User.update({
-                                  //       name: 'Ho'
-                                  //     }, {
-                                  //       where: {
-                                  //           id: 7
-                                  //       },
-                                  //       transaction: t     //second parameter is "options", so transaction must be in it
-                                  //   }).then((user) => {
-                                  //     console.log(user)
-                                  //   })
-      
-                                  // })
-  
-                                    // models.sequelize.transaction(function (t) {
-
-                                    //   models.User.findOne({where: {
-                                    //         id: refferalUser.id
-                                    //       }, lock: t.LOCK.UPDATE, transaction: t }).then(function(user){
-  
-                                          
-                                    //     })
-                                    //   })
                                   })
                                 })
                               })
