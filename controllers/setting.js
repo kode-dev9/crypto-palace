@@ -9,8 +9,13 @@ const {SettingStore} = require('../utils/settingStore'),
 module.exports = (io) => {
   return {
     index: (req, res) => {
-      
+      if(res.locals.settings.siteName){
+        return res.redirect('/')
+      }
       return res.render('backend/admin/setting/index')
+    },
+    indexAdmin: (req, res) => {
+      return res.render('backend/admin/setting/admin')
     },
     save: (req, res) => {
       //grab form data and run validation
@@ -27,7 +32,7 @@ module.exports = (io) => {
         }
       }, err => {
         if(err) return res.status(422).json({success: false, response: err})
-  
+
         const settings = {
           siteName: req.body.siteName.trim(),
           siteOwner: req.body.siteOwner.trim(),
@@ -38,7 +43,7 @@ module.exports = (io) => {
           googleUri: req.body.googleUri.trim(),
           bitcoinAddress: req.body.bitcoinAddress.trim()
         };
-  
+
         SettingStore.save(settings).then(result => {
           return res.status(200).json({success: true, response:'Setting Saved!', payload: result})
         }).catch(e => {
@@ -48,23 +53,23 @@ module.exports = (io) => {
     },
     saveQr: (req, res) => {
       if(!req.files.qrCode) return res.status(422).json({success: false, response: 'Please upload QR Code.'})
-  
+
         let qrCode = req.files.qrCode;
-        
+
         const ext = qrCode.mimetype.split('/')[1];
         const newImageName = 'QRCode' + '-' + Date.now() + '.'+ext;
-  
-        qrCode.mv('public/uploads/images/qr/'+newImageName, function(err) {
-          if (err) 
+
+        qrCode.mv('public/src/uploads/images/qr/'+newImageName, function(err) {
+          if (err)
             return res.status(422).json({success: false, response: err.Error})
         })
-  
+
         const settings = {
-          qrCode: 'public/uploads/images/qr/'+newImageName
+          qrCode: '/uploads/images/qr/'+newImageName
         };
-  
+
         SettingStore.saveQr(settings).then(result => {
-          return res.status(200).json({success: true, response: 'Setting Saved!'})
+          return res.status(200).json({success: true, response: 'QR Code Saved!'})
         }).catch(e => {
           console.log('ERROR:', e)
         })

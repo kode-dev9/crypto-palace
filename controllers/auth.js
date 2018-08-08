@@ -2,7 +2,7 @@ const {validateForm} = require('../utils/validation'),
   models = require('../db/models'),
   bcrypt = require('bcrypt'),
   verificationToken = require('../utils/verificationToken'),
-  refferalLink = require('../utils/referralToken')
+  refferalLink = require('../utils/referralToken'),
   twoFA = require('../utils/2faToken');
 
 const redis = require('redis');
@@ -109,13 +109,17 @@ module.exports = (io) => {
                                   user: user.id
                                 }).then(refferal => {
                                   let msg = 'A user '+user.name+', has registered under your referral link.<br>Referral bonus will be received once he/she completes a transaction.'
+                                  let briefMsg = msg.substr(0, 45);
+
+                                  briefMsg = briefMsg.substr(0, Math.min(briefMsg.length, briefMsg.lastIndexOf(" ")))
                                   models.Notification.create({
                                     recipient: refferalUser.id,
                                     title: 'New Referral',
-                                    message: msg
+                                    message: msg,
+                                    briefMessage: briefMsg
                                   }).then(notification => {
                                     io.on('connection', function(socket){
-                                      io.emit('newNotification.'+notification.recipient, {message: msg})
+                                      io.emit('newNotification.'+notification.recipient, {message: briefMsg})
                                     })
 
                                     models.User.update({

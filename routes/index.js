@@ -7,11 +7,24 @@ const express = require('express'),
   accountCtrl = require('../controllers/account'),
   {isAuthenticated, authCheck, isAdmin} = require('../middlewares/auth'),
   {siteSetting} = require('../middlewares/settings'),
-  lostPasswordCtrl = require('../controllers/lostPassword');
+  lostPasswordCtrl = require('../controllers/lostPassword'),
+  referralCtrl = require('../controllers/referrals'),
+  notificationCtrl = require('../controllers/notification');
 
 const { sendEmail } = require('../utils/mail');
 
 module.exports = (io) => {
+
+  router.route('/test')
+    .get((req, res) => {
+
+
+      io.sockets.on('connection', function (socket) {
+        console.log('A client is connected!');
+        socket.emit('newNotification.1', {message: 'A user just registered under your referral.'});
+      });
+      res.send("Hello my dear friend")
+    })
 
   const settingCtrl = require('../controllers/setting')(io)
   const authCtrl = require('../controllers/auth')(io)
@@ -86,19 +99,40 @@ module.exports = (io) => {
 
   router.use(isAuthenticated);
   router.route('/profile')
-    .get(accountCtrl.index);
+    .get(accountCtrl.profile);
+
+  router.route('/profile/details')
+    .get(accountCtrl.show)
+
+  router.route('/profile/edit')
+    .post(accountCtrl.updateDetails);
+
+  router.route('/profile/edit/image')
+    .post(accountCtrl.updateProfileImage)
 
   router.route('/dashboard')
     .get(accountCtrl.index);
 
-  router.use('/testimony', require('./testimony'))
+  router.use('/reviews', require('./testimony')(io))
+
+  router.route('/referrals')
+    .get(referralCtrl.index)
+
+  router.route('/notifications/unread')
+    .get(notificationCtrl.listShow)
+
+  router.route('/notifications')
+    .get(notificationCtrl.index)
+
+  router.route('/notifications/:id')
+    .get(notificationCtrl.show)
 
   /*
   * Admin routing
   */
   router.use(isAdmin);
   router.route('/admin/setting')
-    .get(settingCtrl.index);
+    .get(settingCtrl.indexAdmin);
 
   router.use('/admin/users', require('./users'))
 

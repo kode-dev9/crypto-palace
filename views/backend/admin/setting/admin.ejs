@@ -1,0 +1,41 @@
+<% include ../../../partials/head %>
+<title><%= settings.siteName %> - Site Setting</title>
+</head>
+<body class="vertical-layout vertical-content-menu 2-columns   menu-expanded fixed-navbar"
+      data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
+<div id="app-root">
+    <% include ../../../partials/header %>
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <% include ../../../partials/sidebar %>
+            <div class="content-body">
+                <div class="clearfix">
+                    <div class="col-md-4 col-11 float-right">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Change QR Code</div>
+                            </div>
+                            <setting-qrcode></setting-qrcode>
+                        </div>
+                    </div>
+                    <div class="col-md-8 float-right">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Site Details
+                                </div>
+                            </div>
+                            <setting-details :setting="{siteName:'<%= settings.siteName %>',siteOwner:'<%= settings.siteOwner %>',siteDescription:'<%= settings.siteDescription %>',siteMail:'<%= settings.siteMail %>',facebookUri:'<%= settings.facebookUri %>',twitterUri:'<%= settings.twitterUri %>',googleUri:'<%= settings.googleUri %>', bitcoinAddress: '<%= settings.bitcoinAddress %>'}"></setting-details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../../../partials/footer %>
+<script src="/js/main-bundle.min.js"></script>
+</body>
+</html>

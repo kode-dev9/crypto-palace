@@ -1,0 +1,93 @@
+<% include ../../partials/head %>
+<title><%= settings.siteName %> - <%= userDetails.name %>'s Profile</title>
+</head>
+<body class="vertical-layout vertical-content-menu 2-columns   menu-expanded fixed-navbar"
+      data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
+<div id="app-root">
+    <% include ../../partials/header %>
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <% include ../../partials/sidebar %>
+            <div class="content-body">
+                <div id="user-profile">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card profile-with-cover">
+                                <div class="card-img-top img-fluid bg-cover height-300" style="background: url('<%= coverThumb %>') 50%;"></div>
+                                <div class="media profil-cover-details w-100">
+                                    <div class="media-left pl-2 pt-2">
+                                        <a href="#" class="profile-image">
+                                            <img src="<% if(userDetails.profilePhoto){ %><%= userDetails.profilePhoto %> <% } else { %> /images/avatar.png <% }%>" class="rounded-circle img-border height-100"
+                                                 alt="Profile Image">
+                                        </a>
+                                    </div>
+                                    <div class="media-body pt-3 px-2">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h3 class="card-title"><%= userDetails.name %></h3>
+                                            </div>
+                                            <div class="col text-right">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <nav class="navbar navbar-light navbar-profile align-self-end">
+                                    <button class="navbar-toggler d-sm-none" type="button" data-toggle="collapse" aria-expanded="false"
+                                            aria-label="Toggle navigation"></button>
+                                    <nav class="navbar navbar-expand-lg">
+                                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                            <ul class="navbar-nav mr-auto">
+                                                <% if(!isAdmin){ %>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="/referrals"><i class="la la-share-alt"></i> Referrals</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="/wallet"><i class="la la-money"></i> Wallet</a>
+                                                    </li>
+                                                <% } %>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/notifications"><i class="la la-bell-o"></i> Notifications</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        Edit Profile
+                                    </div>
+                                </div>
+                                <profile_edit></profile_edit>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        Change Profile Image
+                                    </div>
+                                </div>
+                                <profileimage_edit></profileimage_edit>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../../partials/footer %>
+<script src="/js/main-bundle.min.js"></script>
+</body>
+</html>

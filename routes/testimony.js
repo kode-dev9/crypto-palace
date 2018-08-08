@@ -1,11 +1,16 @@
 const express = require('express'),
-  router = new express.Router(),
-  testimonyCtrl = require('../controllers/testimony');
+  router = new express.Router();
 
-router.route('/')
-  .get(testimonyCtrl.index)
+module.exports = (io) => {
 
-router.route('/list')
-  .get(testimonyCtrl.list)
+  const testimonyCtrl = require('../controllers/testimony')(io);
 
-module.exports = router;
+  router.route('/')
+    .get(testimonyCtrl.index)
+    .post(testimonyCtrl.create)
+
+  router.route('/list')
+    .get(testimonyCtrl.list)
+
+  return router
+};

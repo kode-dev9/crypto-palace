@@ -11,7 +11,7 @@ Vue.component('signup', {
     </b-alert>
                                         <fieldset class="form-group position-relative has-icon-left mb-1">
                                             <input type="text" class="form-control form-control-lg input-lg" id="name" v-model="formData.name"
-                      :class="{'is-invalid': formErrors.name }"placeholder="User Name">
+                      :class="{'is-invalid': formErrors.name }" placeholder="User Name">
                                             <div class="form-control-position">
                                                 <i class="ft-user"></i>
                                             </div>
@@ -628,7 +628,6 @@ Vue.component('signup', {
     onSubmit: function(){
       this.showDismissibleAlert=true
       this.isLoading = true
-      console.log(this.formData)
 
       axios.post('/signup', this.formData)
         .then(res => {

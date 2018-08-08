@@ -12,20 +12,20 @@
             <% include ../partials/sidebar %>
             <div class="content-body">
                 Hello bkjgk ggk fjhfk fk fkv hk hjfkjhhvj ffu  yfuififufifui lg   goug f f fuo u ffifyuf ufyf ufg jvj gjiyfifyf yfyfyf<%= user.name %>
-                <br><br><a href="/packages">Package</a><br>
-                <br>
-
-                <br>
-
-                <% if(user.isAdmin) {%>
-                <a href="/admin/setting">Settings</a>
-                <% } %>
-                <br><br>
             </div>
         </div>
     </div>
 </div>
 <% include ../partials/footer %>
 <script src="/js/main-bundle.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script>
+    var socket = io();
+    console.log("ready");
+    socket.on("newNotification."+current_user, function(event) {
+        console.log("Message Emited: ", event.message)
+        //toastr.info(event.message, 'Notification', {positionClass: 'toast-bottom-right', containerId: 'toast-bottom-right'});
+    });
+</script>
 </body>
 </html>
