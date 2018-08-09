@@ -238,6 +238,10 @@ module.exports = (io) => {
           return res.status(422).json({success: false, response: "E-mail address and password do not match."});
         }
 
+        if(user.isBanned){
+          return res.status(422).json({success: false, response: "This account has been locked by our admin till further notice."});
+        }
+
         //check if this account has been verified
         let resendLink = 'http://'+req.get('host')+'/resend/verification?email='+req.body.email.trim()
         if(!user.isActive) return res.status(422).json({success: false, response: "Your account has not be verified. Check your email or <a href='"+resendLink+"'>Resend Verification Link</a>"});

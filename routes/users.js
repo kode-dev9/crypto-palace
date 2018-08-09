@@ -4,6 +4,9 @@ const express = require('express'),
 
 router.route('/')
   .get(userCtrl.index)
+  .patch(userCtrl.destroy)
+  .post(userCtrl.ban)
+  .put(userCtrl.unban)
 
 router.route('/list')
   .get(userCtrl.list)

@@ -38,7 +38,7 @@ module.exports = {
       },
       bitcoinAddress: {
         type: Sequelize.STRING(300),
-        allowNull: false
+        allowNull: true
       },
       isAdmin: {
         type: Sequelize.BOOLEAN,

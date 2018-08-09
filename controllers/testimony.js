@@ -8,9 +8,7 @@ module.exports = (io) => {
     },
     list: (req, res) => {
       if(!res.locals.isAdmin){
-        return Testimony.findAll({include: [
-            { model: User}
-          ],
+        return Testimony.findAll({
           where: {
           user: req.session.user
           }}).then(testimonies => {
@@ -18,9 +16,27 @@ module.exports = (io) => {
         })
       }
 
-      Testimony.all().then(testimonies => {
-        res.json({count: testimonies.length, testimonies: testimonies})
-      })
+      let limit = 9;   // number of records per page
+      let offset = 0;
+
+      Testimony.findAndCountAll()
+        .then((data) => {
+          let page = (req.query.page) ? req.query.page : 1;      // page number
+          let pages = Math.ceil(data.count / limit);
+          offset = limit * (page - 1);
+
+          Testimony.all({
+            include: [
+              {model: User}
+            ],
+            limit: limit,
+            offset: offset,
+            $sort: { id: 1 }
+          }).then(testimonies => {
+            res.json({'total': data.count, current: page, 'pages': pages, count: testimonies.length, testimonies: testimonies})
+          })
+
+        })
     },
     create: (req, res) => {
       validateForm.validateTestimony({
@@ -55,9 +71,9 @@ module.exports = (io) => {
     },
     destroy: (req, res) => {
       Testimony.findById(req.body.id).then(testimony => {
-        if (!testimony) return res.status(422).json({
-          success: false, response: 'Request could not be validated.'
-        })
+        if(!testimony) return res.status(422).json({
+          success: false, response: 'Request could not be validated.', testimony
+        });
 
         Testimony.destroy({where: {id: req.body.id}}).then(testimony => {
           Testimony.all().then(testimony => {
@@ -71,7 +87,9 @@ module.exports = (io) => {
       Testimony.update({isApproved: true}, {where: {id: req.body.id}}).then(testimony => {
         if (!testimony) return res.status(422).json({success: false, response: 'Could complete request.'})
 
-        res.status(200).json({success: true, response: "Review approved!"})
+        Testimony.all().then(testimony => {
+          res.status(200).json({success: true, response: "Review approved!", payload: testimony})
+        })
       })
     }
   }

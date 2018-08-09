@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     bitcoinAddress: {
       type: DataTypes.STRING(300),
-      allowNull: false
+      allowNull: true
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,

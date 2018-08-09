@@ -223,6 +223,52 @@ class FormValidation {
 
     callback(hasErrors && errors)
   }
+
+  validateAgent(valObj, callback){
+    let errors = {};
+    let hasErrors = false;
+
+    let fields = valObj.fields;
+
+    if(!fields.email.val || fields.email.val.trim() === ''){
+      hasErrors = true;
+      errors.email = fields.email.message
+    }
+
+    if(fields.email.val && fields.email.val.trim() !== ''){
+      if(!this.emailValidation(fields.email.val.trim())){
+        hasErrors = true;
+        errors.email = 'Please enter a valid email address.'
+      }
+    }
+
+    if(!fields.name.val || fields.name.val.trim() === ''){
+      hasErrors = true;
+      errors.name = fields.name.message
+    }
+
+    if(!fields.firstName.val || fields.firstName.val.trim() === ''){
+      hasErrors = true;
+      errors.firstName = fields.firstName.message
+    }
+
+    if(!fields.lastName.val || fields.lastName.val.trim() === ''){
+      hasErrors = true;
+      errors.lastName = fields.lastName.message
+    }
+
+    if(!fields.country.val || fields.country.val.trim() === ''){
+      hasErrors = true;
+      errors.country = fields.country.message
+    }
+
+    if(!fields.bitcoinAddress.val || fields.bitcoinAddress.val.trim() === ''){
+      hasErrors = true;
+      errors.bitcoinAddress = fields.bitcoinAddress.message
+    }
+
+    callback(hasErrors && errors)
+  }
 }
 
 module.exports = {

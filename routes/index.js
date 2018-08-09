@@ -9,7 +9,9 @@ const express = require('express'),
   {siteSetting} = require('../middlewares/settings'),
   lostPasswordCtrl = require('../controllers/lostPassword'),
   referralCtrl = require('../controllers/referrals'),
-  notificationCtrl = require('../controllers/notification');
+  notificationCtrl = require('../controllers/notification'),
+  agentCtrl = require('../controllers/agent'),
+  tradingCtrl = require('../controllers/trading');
 
 const { sendEmail } = require('../utils/mail');
 
@@ -113,6 +115,11 @@ module.exports = (io) => {
   router.route('/dashboard')
     .get(accountCtrl.index);
 
+  router.route('/access/reject')
+    .get((req, res) => {
+      res.render('accessDenial', {message: req.flash('message')})
+    });
+
   router.use('/reviews', require('./testimony')(io))
 
   router.route('/referrals')
@@ -127,6 +134,9 @@ module.exports = (io) => {
   router.route('/notifications/:id')
     .get(notificationCtrl.show)
 
+  router.route('/packages')
+    .get(tradingCtrl.packages)
+
   /*
   * Admin routing
   */
@@ -135,6 +145,9 @@ module.exports = (io) => {
     .get(settingCtrl.indexAdmin);
 
   router.use('/admin/users', require('./users'))
+
+  router.route('/agents')
+    .post(agentCtrl.save)
 
   return router
 };

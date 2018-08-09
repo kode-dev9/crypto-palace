@@ -8,6 +8,8 @@ module.exports = (io) => {
   router.route('/')
     .get(testimonyCtrl.index)
     .post(testimonyCtrl.create)
+    .patch(testimonyCtrl.approve)
+    .put(testimonyCtrl.destroy);
 
   router.route('/list')
     .get(testimonyCtrl.list)

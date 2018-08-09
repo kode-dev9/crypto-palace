@@ -1,0 +1,37 @@
+<% include ./partials/head %>
+<title>Access Denied</title>
+</head>
+<body class="vertical-layout vertical-content-menu 1-column   menu-expanded blank-page blank-page"
+      data-open="click" data-menu="vertical-content-menu" data-col="1-column">
+<div id="app-root" class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <section class="flexbox-container">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <div class="col-md-4 col-10 box-shadow-2 p-0">
+                        <div class="card border-grey border-lighten-3 px-2 py-2 m-0">
+                            <div class="card-header border-0 pb-0">
+                                <div class="card-title text-center">
+                                    <img src="/images/logo/logo-dark.png" alt="branding logo">
+                                </div>
+                                <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                                    <span>Access Denied.</span>
+                                </h6>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <access-denial :message="'<%= message %>'"></access-denial>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="/js/main-bundle.min.js"></script>
+</body>
+</html>

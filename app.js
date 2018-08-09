@@ -216,6 +216,29 @@ app.use((req, res, next) => {
   })
 });
 
+app.use((req, res, next) => {
+  if(req.session.user){
+    //check if user has been blocked or deleted
+
+    User.findById(req.session.user).then(user => {
+      if(!user) {
+        return res.redirect('/signin');
+      }else if(user.isDeleted) {
+        req.flash('message', 'This account has been deleted from our platform.')
+
+        return res.redirect('/access/reject');
+      }else if(user.isBanned){
+        req.flash('message', 'This account has been locked by our admin till further notice.')
+
+        return res.redirect('/access/reject');
+      }
+
+    })
+  }
+
+  return next();
+});
+
 app.use('', require('./routes')(app.io));
 
 // catch 404 and forward to error handler
