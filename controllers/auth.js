@@ -118,8 +118,11 @@ module.exports = (io) => {
                                     message: msg,
                                     briefMessage: briefMsg
                                   }).then(notification => {
-                                    io.on('connection', function(socket){
-                                      io.emit('newNotification.'+notification.recipient, {message: briefMsg})
+                                    io.sockets.emit('newNotification.'+notification.recipient, {
+                                      briefMessage: briefMsg,
+                                      id: notification.id,
+                                      createdAt: notification.createdAt,
+                                      title: notification.title
                                     })
 
                                     models.User.update({

@@ -10,8 +10,7 @@ const express = require('express'),
   lostPasswordCtrl = require('../controllers/lostPassword'),
   referralCtrl = require('../controllers/referrals'),
   notificationCtrl = require('../controllers/notification'),
-  agentCtrl = require('../controllers/agent'),
-  tradingCtrl = require('../controllers/trading');
+  agentCtrl = require('../controllers/agent');
 
 const { sendEmail } = require('../utils/mail');
 
@@ -19,27 +18,30 @@ module.exports = (io) => {
 
   router.route('/test')
     .get((req, res) => {
-
-
-      io.sockets.on('connection', function (socket) {
-        console.log('A client is connected!');
-        socket.emit('newNotification.1', {message: 'A user just registered under your referral.'});
+      io.sockets.emit('newNotification.1', {
+        id: 1,
+        briefMessage: 'A user just registered under your referral.',
+        createdAt: '2018-08-03 10:01:17',
+        title: 'New Referral'
       });
       res.send("Hello my dear friend")
-    })
+    });
 
-  const settingCtrl = require('../controllers/setting')(io)
-  const authCtrl = require('../controllers/auth')(io)
+  const settingCtrl = require('../controllers/setting')(io);
+  const authCtrl = require('../controllers/auth')(io);
+  const supportCtrl = require('../controllers/support')(io);
+  const tradingCtrl = require('../controllers/trading')(io);
+
   router.route('/site/setting')
     .put(settingCtrl.save);
 
   router.route('/setting/site')
-    .get(settingCtrl.index)
+    .get(settingCtrl.index);
 
   router.route('/site/setting/qrcode')
     .post(settingCtrl.saveQr);
 
-  router.use(siteSetting)
+  router.use(siteSetting);
   //Begin authentication routing
   router.route('/signup')
     .get(authCheck, authCtrl.index)
@@ -93,7 +95,7 @@ module.exports = (io) => {
     .put(settingCtrl.save);
 
   router.route('/setting/site')
-    .get(settingCtrl.index)
+    .get(settingCtrl.index);
 
   router.route('/site/setting/qrcode')
     .put(settingCtrl.saveQr);
@@ -104,13 +106,13 @@ module.exports = (io) => {
     .get(accountCtrl.profile);
 
   router.route('/profile/details')
-    .get(accountCtrl.show)
+    .get(accountCtrl.show);
 
   router.route('/profile/edit')
     .post(accountCtrl.updateDetails);
 
   router.route('/profile/edit/image')
-    .post(accountCtrl.updateProfileImage)
+    .post(accountCtrl.updateProfileImage);
 
   router.route('/dashboard')
     .get(accountCtrl.index);
@@ -120,22 +122,37 @@ module.exports = (io) => {
       res.render('accessDenial', {message: req.flash('message')})
     });
 
-  router.use('/reviews', require('./testimony')(io))
+  router.use('/reviews', require('./testimony')(io));
 
   router.route('/referrals')
-    .get(referralCtrl.index)
+    .get(referralCtrl.index);
 
   router.route('/notifications/unread')
-    .get(notificationCtrl.listShow)
+    .get(notificationCtrl.listShow);
 
   router.route('/notifications')
-    .get(notificationCtrl.index)
+    .get(notificationCtrl.index);
 
   router.route('/notifications/:id')
-    .get(notificationCtrl.show)
+    .get(notificationCtrl.show);
 
   router.route('/packages')
-    .get(tradingCtrl.packages)
+    .get(tradingCtrl.packages);
+
+  router.route('/support')
+    .get(supportCtrl.index);
+
+  router.route('/trading/start')
+    .post(tradingCtrl.start);
+
+  router.route('/trading/payment/:id')
+    .get(tradingCtrl.paymentPage);
+
+  router.route('/trading/payment/completed')
+    .post(tradingCtrl.savePayment);
+
+  router.route('/transactions')
+    .get(tradingCtrl.transactions)
 
   /*
   * Admin routing
@@ -144,10 +161,10 @@ module.exports = (io) => {
   router.route('/admin/setting')
     .get(settingCtrl.indexAdmin);
 
-  router.use('/admin/users', require('./users'))
+  router.use('/admin/users', require('./users'));
 
   router.route('/agents')
-    .post(agentCtrl.save)
+    .post(agentCtrl.save);
 
   return router
 };

@@ -9,8 +9,8 @@ insert_final_newline = true
 [*.{js}]
 charset = utf-8
 
-# JavaScript, TYPESCRIPT, CSS, SCSS, HTML settings
-[*.{js,ts,css,scss,html}]
+# JavaScript, TYPESCRIPT, EJS, CSS, SCSS, HTML settings
+[*.{ejs,js,ts,css,scss,html}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true

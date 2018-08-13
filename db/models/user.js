@@ -79,6 +79,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'referral',
       as: 'referral',
     });
+
+    User.hasMany(models.Trade, {
+      foreignKey: 'user',
+      as: 'transactions',
+    })
   };
 
   User.prototype.toJSON = function() {

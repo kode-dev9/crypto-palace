@@ -31,7 +31,8 @@ module.exports = (io) => {
             ],
             limit: limit,
             offset: offset,
-            $sort: { id: 1 }
+            $sort: { id: 1 },
+            order: [ ['createdAt', 'DESC'] ]
           }).then(testimonies => {
             res.json({'total': data.count, current: page, 'pages': pages, count: testimonies.length, testimonies: testimonies})
           })
@@ -61,8 +62,11 @@ module.exports = (io) => {
             message: msg,
             briefMessage: briefMsg
           }).then(notification => {
-            io.on('connection', function (socket) {
-              io.emit('newNotification.' + notification.recipient, {message: briefMsg})
+            io.sockets.emit('newNotification.' + notification.recipient, {
+              briefMessage: briefMsg,
+              id: notification.id,
+              createdAt: notification.createdAt,
+              title: notification.title
             })
             res.status(200).json({success: true, response: 'Review Sent.', payload: testimony})
           })
@@ -76,7 +80,7 @@ module.exports = (io) => {
         });
 
         Testimony.destroy({where: {id: req.body.id}}).then(testimony => {
-          Testimony.all().then(testimony => {
+          Testimony.findAll({order: [ ['createdAt', 'DESC'] ]}).then(testimony => {
             res.status(200).json({success: true, response: 'Review Deleted.', payload: testimony})
           })
 
@@ -87,7 +91,7 @@ module.exports = (io) => {
       Testimony.update({isApproved: true}, {where: {id: req.body.id}}).then(testimony => {
         if (!testimony) return res.status(422).json({success: false, response: 'Could complete request.'})
 
-        Testimony.all().then(testimony => {
+        Testimony.findAll({order: [ ['createdAt', 'DESC'] ]}).then(testimony => {
           res.status(200).json({success: true, response: "Review approved!", payload: testimony})
         })
       })

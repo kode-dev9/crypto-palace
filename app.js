@@ -1,3 +1,4 @@
+const cron = require("node-cron");
 const createError = require('http-errors'),
   express = require('express'),
   logger = require('morgan'),
@@ -12,7 +13,8 @@ const createError = require('http-errors'),
   redisClient = require('redis').createClient({host : 'localhost', port : 6379})
   path = require('path'),
   flash = require('connect-flash'),
-  {SettingStore} = require('./utils/settingStore');
+  {SettingStore} = require('./utils/settingStore'),
+    axios = require('axios');
 
 const fileUpload = require('express-fileupload');
 
@@ -21,10 +23,15 @@ const app = express();
 const User = require('./db/models').User
 app.io = require('socket.io')();
 
-// io.sockets.on('connection', function (socket) {
-//   console.log('A client is connected!');
-//   socket.emit('notification.'+notification.recipient, {message: 'A user just registered under your referral.'});
-// });
+cron.schedule("* * * * *", function() {
+  // axios.get('https://blockchain.info/tobtc?currency=USD&value=35')
+  //   .then(response => {
+  //     console.log(response.data);
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
+});
 
 app.use((req, res, next) => {
     const settings = {}

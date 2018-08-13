@@ -269,6 +269,25 @@ class FormValidation {
 
     callback(hasErrors && errors)
   }
+
+  validateTrading(valObj, callback){
+    let errors = {}
+    let hasErrors = false
+
+    let fields = valObj.fields
+
+    if(!fields.walletId.val || fields.walletId.val.trim() === ''){
+      errors.walletId = fields.walletId.message
+      hasErrors = true;
+    }
+
+    if(!fields.walletPassword.val || fields.walletPassword.val.trim() === ''){
+      errors.walletPassword = fields.walletPassword.message
+      hasErrors = true;
+    }
+
+    callback(hasErrors && errors)
+  }
 }
 
 module.exports = {

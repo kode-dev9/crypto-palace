@@ -23,7 +23,8 @@ module.exports = {
           ],
           limit: limit,
           offset: offset,
-          $sort: { id: 1 }
+          $sort: { id: 1 },
+          order: [ ['createdAt', 'DESC'] ]
         }).then(referral => {
 
           redisClient.exists('refferalLink.'+res.locals.userDetails.email,function(err,result) {

@@ -18,14 +18,5 @@
 </div>
 <% include ../partials/footer %>
 <script src="/js/main-bundle.min.js"></script>
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-<script>
-    var socket = io();
-    console.log("ready");
-    socket.on("newNotification."+current_user, function(event) {
-        console.log("Message Emited: ", event.message)
-        //toastr.info(event.message, 'Notification', {positionClass: 'toast-bottom-right', containerId: 'toast-bottom-right'});
-    });
-</script>
 </body>
 </html>

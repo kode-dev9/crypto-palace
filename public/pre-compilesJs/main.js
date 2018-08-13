@@ -3,9 +3,9 @@ window.jQuery = $
 require('./vendors/index');
 require('./core');
 require('./scripts/index');
-const Clipboard = require('clipboard')
+const Clipboard = require('clipboard');
 
-window.current_user = document.head.querySelector('meta[name="current_user"]').content
+window.current_user = document.head.querySelector('meta[name="current_user"]').content;
 
 $('#copybtn').tooltip({
   trigger: 'click',
@@ -37,7 +37,7 @@ clipboard.on('error', function(e) {
   hideTooltip();
 });
 
-let timeAago = (time) => {
+window.timeAago = (time) => {
 
   switch (typeof time) {
     case 'number':
@@ -103,8 +103,8 @@ import '../sass/style.scss'
 
 
 Vue.use(BootstrapVue);
-//require('socket.io/socket.io.js');
-//var socket = io();
+window.io = require('socket.io-client/dist/socket.io.js');
+var socket = io();
 
 require('./components/auth');
 require('./components/backend');
@@ -114,8 +114,8 @@ new Vue({
   el: '#app-root'
 });
 
-// socket.on("newNotification."+current_user, function(event) {
-//   toastr.info(event.message, 'Notification', {positionClass: 'toast-bottom-right', containerId: 'toast-bottom-right'});
-// }.bind(this));
+socket.on("newNotification."+current_user, function(event) {
+  toastr.info(event.briefMessage, event.title, {positionClass: 'toast-bottom-right', containerId: 'toast-bottom-right'});
+}.bind(this));
 
 
