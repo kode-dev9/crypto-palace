@@ -68,10 +68,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
-      referralBonus: {
-        type: Sequelize.DECIMAL(15, 2),
-        defaultValue: 0.00
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

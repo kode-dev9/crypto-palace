@@ -64,7 +64,8 @@ module.exports = {
               lastName: req.body.lastName,
               firstName: req.body.firstName,
               country: req.body.country,
-              adminType: 2
+              adminType: 2,
+              isAdmin: 1
             }).then(user => {
 
               res.status(200).json({success: true, response: 'Account created successfully. Agent will be notified to further complete his/her account setup.', payload: user})

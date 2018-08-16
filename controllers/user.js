@@ -5,7 +5,7 @@ module.exports = {
     res.render('backend/admin/users')
   },
   list: (req, res) => {
-    let q = req.query.q;
+    let q = (req.query.q)?req.query.q: '';
     let sort = req.query.sort;
 
     let limit = 8;   // number of records per page
@@ -13,7 +13,7 @@ module.exports = {
 
     const Op = models.Sequelize.Op;
 
-    models.User.findAndCountAll({where: {id: {
+    models.User.findAndCountAll({where: { name: { [Op.like]: '%'+q+'%'}, id: {
           [Op.not]: res.locals.adminId
         }, isDeleted: false}})
       .then((data) => {
@@ -22,7 +22,7 @@ module.exports = {
         offset = limit * (page - 1);
 
         models.User.findAll({
-          where: {id: {
+          where: { name: { [Op.like]: '%'+q+'%'}, id: {
               [Op.not]: res.locals.adminId
             }, isDeleted: false
           },

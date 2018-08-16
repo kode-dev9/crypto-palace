@@ -14,7 +14,7 @@ Vue.component('account-verification', {
   },
   mounted(){
     setTimeout(() =>{
-      window.location = '/login';
+      window.location = '/signin';
     }, 4000)
   }
 });

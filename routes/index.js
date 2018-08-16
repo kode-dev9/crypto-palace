@@ -152,7 +152,16 @@ module.exports = (io) => {
     .post(tradingCtrl.savePayment);
 
   router.route('/transactions')
-    .get(tradingCtrl.transactions)
+    .get(tradingCtrl.transactions);
+
+  router.route('/trading/transactions')
+    .get(tradingCtrl.transactionList);
+
+  router.route('/wallet/withdraw')
+    .post(tradingCtrl.withdraw)
+
+  router.route('/trading/transaction/details')
+    .get(tradingCtrl.wallet)
 
   /*
   * Admin routing
@@ -160,6 +169,9 @@ module.exports = (io) => {
   router.use(isAdmin);
   router.route('/admin/setting')
     .get(settingCtrl.indexAdmin);
+
+  router.route('/transaction/payment')
+    .post(tradingCtrl.paymentAction);
 
   router.use('/admin/users', require('./users'));
 

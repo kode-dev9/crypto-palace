@@ -60,10 +60,6 @@ module.exports = (sequelize, DataTypes) => {
     referred: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
-    },
-    referralBonus: {
-      type: DataTypes.DECIMAL(15, 2),
-      defaultValue: 0.00
     }
   }, {});
   User.associate = function(models) {
@@ -83,6 +79,11 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Trade, {
       foreignKey: 'user',
       as: 'transactions',
+    })
+
+    User.hasOne(models.Wallet, {
+      foreignKey: 'user',
+      as: 'wallet',
     })
   };
 

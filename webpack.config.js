@@ -9,11 +9,15 @@ var outputFile = libraryName + '.js';
 
 
 module.exports = {
-  entry: './public/pre-compilesJs/main.js',
+  entry: {
+    'main-bundle': './public/pre-compilesJs/main.js',
+    'chart': './public/pre-compilesJs/independent/chart.js',
+    'dashboard': './public/pre-compilesJs/independent/dashboard.js'
+  },
   mode: "production",
   output: {
     path: path.resolve(__dirname, "public/src/js"),
-    filename: 'main-bundle.min.js',
+    filename: '[name].min.js',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },

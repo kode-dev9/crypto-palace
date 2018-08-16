@@ -288,6 +288,25 @@ class FormValidation {
 
     callback(hasErrors && errors)
   }
+
+  validateWithdrawal(valObj, callback){
+    let errors = {}
+    let hasErrors = false;
+
+    let fields = valObj.fields;
+
+    if(!fields.amount.val || fields.amount.val === ''){
+      errors.amount = fields.amount.message
+      hasErrors = true;
+    }
+
+    // if(fields.amount.val && typeof(fields.amount.val) != 'number'){
+    //   errors.amount = 'Please enter a correct bitcoin amount.'
+    //   hasErrors = true;
+    // }
+
+    callback(hasErrors && errors)
+  }
 }
 
 module.exports = {

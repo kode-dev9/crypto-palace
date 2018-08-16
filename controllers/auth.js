@@ -59,6 +59,9 @@ module.exports = (io) => {
                 }).then(user => {
                   verificationToken(req.body.email)
                     .then(token => {
+                      models.Wallet.create({
+                        user: user.id
+                      }).then();
                     //send mails
                     let encodedMail = new Buffer(req.body.email).toString('base64');
                     let verificationLink = 'http://'+req.get('host')+'/verify?m='+encodedMail+'&id='+token;
