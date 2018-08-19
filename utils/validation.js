@@ -276,13 +276,8 @@ class FormValidation {
 
     let fields = valObj.fields
 
-    if(!fields.walletId.val || fields.walletId.val.trim() === ''){
-      errors.walletId = fields.walletId.message
-      hasErrors = true;
-    }
-
-    if(!fields.walletPassword.val || fields.walletPassword.val.trim() === ''){
-      errors.walletPassword = fields.walletPassword.message
+    if(!fields.amount.val || fields.amount.val.trim() === ''){
+      errors.amount = fields.amount.message
       hasErrors = true;
     }
 

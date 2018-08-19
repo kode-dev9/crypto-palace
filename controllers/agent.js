@@ -41,8 +41,8 @@ module.exports = {
                 console.log(verificationLink)
                 let verifyMail = async () => {
                   try {
-                    await sendEmail('confiyobo@gmail.com',
-                      'CryptPalace - Agent Account Setup',
+                    await sendEmail(req.body.email,
+                      'Agent Account Setup',
                       'agentAccountVerification',
                       {verificationLink: verificationLink, password: password});
 

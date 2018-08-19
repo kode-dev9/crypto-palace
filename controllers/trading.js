@@ -15,100 +15,162 @@ Date.prototype.addDays = function(days) {
 module.exports = (io) => {
   return {
     packages: (req, res) => {
-      res.render('backend/trading/packages')
+      models.Wallet.findOne({where: {user: req.session.user}}).then(wallet => {
+        res.render('backend/trading/packages', {deposit: wallet.totalDeposit})
+      });
+
     },
     start: (req, res) => {
       validateForm.validateTrading({
         fields: {
-          walletPassword: {val: req.body.walletPassword, message: 'Wallet password is required.'},
-          walletId: {val: req.body.walletId, message: 'Wallet ID is required.'}
+          amount: {val: req.body.amount, message: 'Please enter amount.'}
         }
       }, (err) => {
         if (err) return res.status(422).json({success: false, response: err});
 
         let packageData = {};
 
-        let currentTime = new Date();
+        models.Wallet.findOne({where: {user: req.session.user}}).then(wallet => {
 
-        if(req.body.package === 'Basic'){
-          packageData.package = 'Basic';
-          packageData.miningFee = '10';
-          packageData.duration = 5;
-          packageData.earning = 0.5;
-          packageData.investing = 0.1;
-          packageData.dailyEarnings = (packageData.earning / packageData.duration);
-        }else if(req.body.package === 'Standard'){
-          packageData.package = 'Standard';
-          packageData.miningFee = '10';
-          packageData.duration = 5;
-          packageData.earning = 0.9;
-          packageData.investing = 0.6;
-          packageData.dailyEarnings = (packageData.earning / packageData.duration);
-        }else if(req.body.package === 'Professional'){
-          packageData.package = 'Professional';
-          packageData.miningFee = '10';
-          packageData.duration = 5;
-          packageData.earning = 9;
-          packageData.investing = 1;
-          packageData.dailyEarnings = (packageData.earning / packageData.duration);
-        }else if(req.body.package === 'Master'){
-          packageData.package = 'Master';
-          packageData.miningFee = '10';
-          packageData.duration = 5;
-          packageData.earning = 30;
-          packageData.investing = 10;
-          packageData.dailyEarnings = (packageData.earning / packageData.duration);
-        }else {
-          return res.status(422).json({success: false, response: 'Request not understood!'});
-        }
+          let currentTime = new Date();
 
-        return models.Trade.create({
-          user: req.session.user,
-          package: packageData.package,
-          miningFee: packageData.miningFee,
-          dailyEarnings: packageData.dailyEarnings,
-          walletId: req.body.walletId.trim(),
-          walletPassword: req.body.walletPassword.trim(),
-          duration: packageData.duration,
-          earning: packageData.earning,
-          investing: packageData.investing,
-        }).then(result => {
-          models.User.findById(result.user).then(user => {
-            models.Wallet.update({
-              totalTransactions: models.Sequelize.literal('totalTransactions + 1'),
-              ongoingTransactions: models.Sequelize.literal('ongoingTransactions + 1')
-            }, {where: {user: user.id}});
-            let msg = `${user.name} has applied for ${result.package} package
+          if(req.body.package === 'Basic'){
+            if(wallet.totalDeposit < 0.1) return res.status(422).json({success: false, response: "Your deposit is smaller than this package's minimum amount."});
+
+            if(req.body.amount < 0.1 || req.body.amount > 0.5) return res.status(422).json({success: false, response: "Amount must be within plan range."});
+            packageData.package = 'Basic';
+            packageData.miningFee = '10';
+            packageData.duration = 5;
+            packageData.earning = ((req.body.amount * 3) / 100) * packageData.duration;
+            packageData.investing = req.body.amount;
+            packageData.dailyEarnings = (packageData.earning / packageData.duration);
+          }else if(req.body.package === 'Standard'){
+            if(wallet.totalDeposit < 0.6) return res.status(422).json({success: false, response: "Your deposit is smaller than this package's minimum amount."});
+
+            if(req.body.amount < 0.6 || req.body.amount > 0.9) return res.status(422).json({success: false, response: "Amount must be within plan range."});
+            packageData.package = 'Standard';
+            packageData.miningFee = '10';
+            packageData.duration = 5;
+            packageData.earning = ((req.body.amount * 5) / 100) * packageData.duration;
+            packageData.investing = req.body.amount;
+            packageData.dailyEarnings = (packageData.earning / packageData.duration);
+          }else if(req.body.package === 'Professional'){
+            if(wallet.totalDeposit < 1) return res.status(422).json({success: false, response: "Your deposit is smaller than this package's minimum amount."});
+
+            if(req.body.amount < 1 || req.body.amount > 9) return res.status(422).json({success: false, response: "Amount must be within plan range."});
+            packageData.package = 'Professional';
+            packageData.miningFee = '10';
+            packageData.duration = 5;
+            packageData.earning = ((req.body.amount * 8) / 100) * packageData.duration;
+            packageData.investing = req.body.amount;
+            packageData.dailyEarnings = (packageData.earning / packageData.duration);
+          }else if(req.body.package === 'Master'){
+            if(wallet.totalDeposit < 10) return res.status(422).json({success: false, response: "Your deposit is smaller than this package's minimum amount."});
+
+            if(req.body.amount < 10) return res.status(422).json({success: false, response: "Amount must be within plan range."});
+            packageData.package = 'Master';
+            packageData.miningFee = '10';
+            packageData.duration = 5;
+            packageData.earning = ((req.body.amount * 10) / 100) * packageData.duration;
+            packageData.investing = req.body.amount;
+            packageData.dailyEarnings = (packageData.earning / packageData.duration);
+          }else {
+            return res.status(422).json({success: false, response: 'Request not understood!'});
+          }
+
+          if(wallet.totalDeposit < req.body.amount) return res.status(422).json({success: false, response: "Your wallet deposit is not enough, please re-enter amount."});
+
+          let startTime = currentTime.setMinutes(currentTime.getMinutes() + 1);
+          let durationTime = currentTime.setMinutes(currentTime.getMinutes() + packageData.duration);
+
+          return models.Trade.create({
+            user: req.session.user,
+            package: packageData.package,
+            miningFee: packageData.miningFee,
+            dailyEarnings: packageData.dailyEarnings,
+            duration: packageData.duration,
+            earning: packageData.earning,
+            investing: packageData.investing,
+            status: 1,
+            durationTime: durationTime,
+            earningStart: startTime
+          }).then(result => {
+            models.User.findById(result.user).then(user => {
+              models.Wallet.update({
+                totalTransactions: models.Sequelize.literal('totalTransactions + 1'),
+                ongoingTransactions: models.Sequelize.literal('ongoingTransactions + 1'),
+                investment: models.Sequelize.literal('investment + '+req.body.amount),
+                totalDeposit: models.Sequelize.literal(wallet.totalDeposit - req.body.amount)
+              }, {where: {user: user.id}});
+
+              if(user.referred){
+                models.Refferal.findOne({where: {user: user.id}}).then(refer => {
+                  models.Refferal.update({
+                    isDone: true
+                  }, {where: {id: refer.id}}).then(referDone => {
+                    axios.get('https://blockchain.info/tobtc?currency=USD&value=5')
+                      .then(response => {
+                        models.Wallet.update({
+                          referralBonus: models.Sequelize.literal('referralBonus + '+response.data)
+                        }, {where: {user: refer.referral}}).then(refWallet => {
+                          let msg = 'Your wallet has been credited with $5 worth of BTC for referring '+user.name+'.<br>Refer more to gain more, Thank you!';
+                          let briefMsg = msg.substr(0, 45);
+
+                          briefMsg = briefMsg.substr(0, Math.min(briefMsg.length, briefMsg.lastIndexOf(" ")));
+
+                          models.Notification.create({
+                            recipient: refer.referral,
+                            title: 'Referral Bonus',
+                            message: msg,
+                            briefMessage: briefMsg
+                          }).then(notification => {
+                            io.sockets.emit('newNotification.' + notification.recipient, {
+                              briefMessage: briefMsg,
+                              id: notification.id,
+                              createdAt: notification.createdAt,
+                              title: notification.title
+                            })
+
+                          })
+                        })
+                      });
+
+                  })
+                })
+              }
+
+              let msg = `${user.name} has applied for ${result.package} package
              and is investing ${packageData.investing} BTC for ${packageData.duration} days.`;
-            let briefMsg = msg.substr(0, 45);
+              let briefMsg = msg.substr(0, 45);
 
-            briefMsg = briefMsg.substr(0, Math.min(briefMsg.length, briefMsg.lastIndexOf(" ")));
-            models.Notification.create({
-              recipient: res.locals.adminId,
-              title: 'New Trading Request',
-              message: msg,
-              briefMessage: briefMsg
-            }).then(notification => {
-              io.sockets.emit('newNotification.' + notification.recipient, {
-                briefMessage: briefMsg,
-                id: notification.id,
-                createdAt: notification.createdAt,
-                title: notification.title
-              })
+              briefMsg = briefMsg.substr(0, Math.min(briefMsg.length, briefMsg.lastIndexOf(" ")));
+              models.Notification.create({
+                recipient: res.locals.adminId,
+                title: 'New Trading Request',
+                message: msg,
+                briefMessage: briefMsg
+              }).then(notification => {
+                io.sockets.emit('newNotification.' + notification.recipient, {
+                  briefMessage: briefMsg,
+                  id: notification.id,
+                  createdAt: notification.createdAt,
+                  title: notification.title
+                });
 
-              res.status(200).json({
-                success: true,
-                response: 'Request sent!. Please wait you will be redirected to the payment page.',
-                payload: result.id
+                res.status(200).json({
+                  success: true,
+                  response: 'Request sent!. Please wait you will be redirected to the payment page.',
+                  payload: result.id
+                })
               })
             })
           })
-        })
+        });
       })
     },
     paymentPage: (req, res) => {
       models.Trade.findById(req.params.id).then(result => {
-        if(!result) return res.send(404)
+        if(!result) return res.send(404);
 
 
         if(result.paymentMade) {
@@ -117,21 +179,21 @@ module.exports = (io) => {
           res.redirect('/transactions')
         }
 
-        // axios.get('https://blockchain.info/tobtc?currency=USD&value='+result.miningFee)
-        //   .then(response => {
+        axios.get('https://blockchain.info/tobtc?currency=USD&value='+result.miningFee)
+          .then(response => {
             //console.log(response.data);
 
             res.render('backend/trading/makePayment', {
               transaction: result,
               bitcoinAddress: res.locals.settings.bitcoinAddress,
               qrCode: res.locals.settings.qrCode,
-              //btcToPay: response.data
-              btcToPay: 0.007098
+              btcToPay: response.data
+              //btcToPay: 0.007098
             })
-          // })
-          // .catch(error => {
-          //   console.log("Hello ",error);
-          // });
+          })
+          .catch(error => {
+            console.log("Hello ",error);
+          });
 
       })
     },
@@ -179,8 +241,8 @@ module.exports = (io) => {
 
             let notifyMail = async () => {
               try {
-                await sendEmail('confiyobo@gmail.com',
-                  'CryptPalace - Transaction Alert',
+                await sendEmail(res.locals.adminMail,
+                  'Transaction Alert',
                   'notificationAlert',
                   {});
 
@@ -228,11 +290,10 @@ module.exports = (io) => {
                     models.Refferal.update({
                       isDone: true
                     }, {where: {id: refer.id}}).then(referDone => {
-                      axios.get('https://blockchain.info/tobtc?currency=USD&value=20')
+                      axios.get('https://blockchain.info/tobtc?currency=USD&value=5')
                         .then(response => {
                           models.Wallet.update({
-                            referralBonus: models.Sequelize.literal('referralBonus + 20'),
-                            balance: models.Sequelize.literal('balance + '+response.data)
+                            referralBonus: models.Sequelize.literal('referralBonus + '+response.data)
                           }, {where: {user: refer.referral}}).then(refWallet => {
                             let msg = 'Your wallet has been credited with $20 for referring '+user.name+'.<br>Refer more to gain more, Thank you!';
                             let briefMsg = msg.substr(0, 45);
@@ -262,8 +323,8 @@ module.exports = (io) => {
 
                 let notifyMail = async () => {
                   try {
-                    await sendEmail('confiyobo@gmail.com',
-                      'CryptPalace - Transaction Alert',
+                    await sendEmail(user.email,
+                      'Transaction Alert',
                       'notificationAlert',
                       {});
 
@@ -326,20 +387,20 @@ module.exports = (io) => {
                 title: notification.title
               })
 
-              let notifyMail = async () => {
-                try {
-                  await sendEmail('confiyobo@gmail.com',
-                    'CryptPalace - Transaction Alert',
-                    'notificationAlert',
-                    {});
-
-                  console.log('MAIL GREETING')
-                }catch (e) {
-                  console.log('Mail Error', e)
-                }
-              };
-
-              notifyMail();
+              // let notifyMail = async () => {
+              //   try {
+              //     await sendEmail(user.email,
+              //       'Transaction Alert',
+              //       'notificationAlert',
+              //       {});
+              //
+              //     console.log('MAIL GREETING')
+              //   }catch (e) {
+              //     console.log('Mail Error', e)
+              //   }
+              // };
+              //
+              // notifyMail();
 
               return res.status(200).json({success: true, response: "Payment Canceled!"})
             });
@@ -437,8 +498,8 @@ module.exports = (io) => {
               }, {where: {user: user.id}}).then(updateWallet => {
                 let notifyMail = async () => {
                   try {
-                    await sendEmail('confiyobo@gmail.com',
-                      'CryptPalace - Withdrawal Request',
+                    await sendEmail(res.locals.adminMail,
+                      'Withdrawal Request',
                       'notificationAlert',
                       {});
 

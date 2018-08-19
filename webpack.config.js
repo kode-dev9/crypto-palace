@@ -12,6 +12,7 @@ module.exports = {
   entry: {
     'main-bundle': './public/pre-compilesJs/main.js',
     'chart': './public/pre-compilesJs/independent/chart.js',
+    'vendor': './public/pre-compilesJs/vendors/index',
     'dashboard': './public/pre-compilesJs/independent/dashboard.js'
   },
   mode: "production",

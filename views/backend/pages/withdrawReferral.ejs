@@ -1,5 +1,5 @@
 <% include ../../partials/head %>
-<title><%= settings.siteName %> - Transactions</title>
+<title><%= settings.siteName %> - <%= userDetails.name %>'s Profile</title>
 </head>
 <body class="vertical-layout vertical-content-menu 2-columns menu-expanded fixed-navbar"
       data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
@@ -11,25 +11,14 @@
       </div>
       <% include ../../partials/sidebar %>
       <div class="content-body">
-          <% if(message && message.length) { %>
-          <div class="alert alert-info"><%= message %></div>
-          <% } %>
-          <% if(isAdmin) { %>
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                Transactions
-              </h3>
-            </div>
-            <div class="card-body">
-            <admin-transaction></admin-transaction>
-
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              Withdraw Referral Bonus
+            </h3>
           </div>
-
+          <withdraw-referral></withdraw-referral>
         </div>
-        <% }else { %>
-        <transaction></transaction>
-        <% } %>
       </div>
     </div>
   </div>

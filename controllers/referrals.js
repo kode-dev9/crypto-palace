@@ -1,5 +1,6 @@
 const models = require('../db/models'),
   refferalLink = require('../utils/referralToken'),
+  { validateForm } = require('../utils/validation'),
   redis = require('redis');
 
 
@@ -42,5 +43,86 @@ module.exports = {
           })
         });
       })
+  },
+  withdrawView: (req, res) => {
+    res.render('backend/pages/withdrawReferral')
+  },
+  pressWithdrawal: (req, res) => {
+    validateForm.validateWithdrawal({
+      fields: {
+        amount: {val: req.body.amount, message: 'Please enter amount.'}
+      }
+    }, (err) => {
+      if (err) return res.status(422).json({success: false, response: err});
+
+      if(req.body.amount == 0) return res.status(422).json({success: false, response: 'Amount cannot be 0 BTC'})
+
+      let bitcoinAddress;
+
+      models.User.findById(req.session.user).then(user => {
+        if(req.body.bitcoinAddress){
+          bitcoinAddress = req.body.bitcoinAddress.trim()
+        }else{
+          bitcoinAddress = user.bitcoinAddress
+        }
+
+        let currentTime = new Date();
+
+        models.Wallet.findOne({where: {user: user.id}}).then(wallet => {
+          if(wallet.referralBonus >= req.body.amount){
+            models.Wallet.update({
+              referralBonus: models.Sequelize.literal('referralBonus - '+req.body.amount)
+            }, {where: {user: user.id}}).then(updateWallet => {
+              let notifyMail = async () => {
+                try {
+                  await sendEmail(res.locals.adminMail,
+                    'Withdrawal Request',
+                    'notificationAlert',
+                    {});
+
+                  console.log('MAIL GREETING')
+                }catch (e) {
+                  console.log('Mail Error', e)
+                }
+              };
+
+              notifyMail();
+
+              let msg = `A user ${user.name} has requested withdrawal of ${req.body.amount} BTC of his/her referral bonus.
+                <br><h4>Details</h4>
+                <b>Bitcoin Address</b>: ${bitcoinAddress},<br>
+                <b>Amount</b>: ${req.body.amount} BTC
+                `;
+              let briefMsg = msg.substr(0, 45);
+
+
+              briefMsg = briefMsg.substr(0, Math.min(briefMsg.length, briefMsg.lastIndexOf(" ")));
+
+              models.Notification.create({
+                recipient: res.locals.adminId,
+                title: 'Payment Request',
+                message: msg,
+                briefMessage: briefMsg
+              }).then(notification => {
+                io.sockets.emit('newNotification.' + notification.recipient, {
+                  briefMessage: briefMsg,
+                  id: notification.id,
+                  createdAt: notification.createdAt,
+                  title: notification.title
+                })
+
+              });
+
+              res.status(200).json({
+                success: true,
+                response: 'Withdrawal request sent!'
+              })
+            })
+          }else{
+            return res.status(422).json({success: false, response: 'Your balance is not enough, kindly change the amount and try again.'})
+          }
+        })
+      })
+    })
   }
 };

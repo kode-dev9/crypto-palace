@@ -16,17 +16,6 @@ const { sendEmail } = require('../utils/mail');
 
 module.exports = (io) => {
 
-  router.route('/test')
-    .get((req, res) => {
-      io.sockets.emit('newNotification.1', {
-        id: 1,
-        briefMessage: 'A user just registered under your referral.',
-        createdAt: '2018-08-03 10:01:17',
-        title: 'New Referral'
-      });
-      res.send("Hello my dear friend")
-    });
-
   const settingCtrl = require('../controllers/setting')(io);
   const authCtrl = require('../controllers/auth')(io);
   const supportCtrl = require('../controllers/support')(io);
@@ -161,7 +150,13 @@ module.exports = (io) => {
     .post(tradingCtrl.withdraw)
 
   router.route('/trading/transaction/details')
-    .get(tradingCtrl.wallet)
+    .get(tradingCtrl.wallet);
+
+  router.route('/referral/withdraw')
+    .post(referralCtrl.pressWithdrawal);
+
+  router.route('/withdraw/referral')
+    .get(referralCtrl.withdrawView);
 
   /*
   * Admin routing

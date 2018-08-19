@@ -1,12 +1,7 @@
-window.$ = require('jquery/dist/jquery.js');
-window.jQuery = $
-require('./vendors/index');
+import knob from 'jquery-knob';
 require('./core');
-require('jquery-knob');
 require('./scripts/index');
 const Clipboard = require('clipboard');
-
-
 window.current_user = document.head.querySelector('meta[name="current_user"]').content;
 
 $('#copybtn').tooltip({
@@ -99,14 +94,10 @@ const axios = require('axios');
 window.axios = axios;
 window.Vue = Vue;
 
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
-import money from 'v-money'
-import '../sass/style.scss'
 
 
 Vue.use(BootstrapVue);
-Vue.use(money)
 window.io = require('socket.io-client/dist/socket.io.js');
 var socket = io();
 

@@ -55,8 +55,8 @@ module.exports = {
 
         let userBanMail = async () => {
           try {
-            await sendEmail('confiyobo@gmail.com',
-              'CryptPalace - Account Issue',
+            await sendEmail(user.email,
+              'Account Issue',
               'accountBan',
               {userName: user.name});
 
@@ -83,8 +83,8 @@ module.exports = {
 
         let userUnBanMail = async () => {
           try {
-            await sendEmail('confiyobo@gmail.com',
-              'CryptPalace - Account Issue',
+            await sendEmail(user.email,
+              'Account Issue',
               'accountUnBan',
               {userName: user.name});
 
@@ -111,8 +111,8 @@ module.exports = {
 
         let userDeleteMail = async () => {
           try {
-            await sendEmail('confiyobo@gmail.com',
-              'CryptPalace - Account Issue',
+            await sendEmail(user.email,
+              'Account Issue',
               'accountDeleted',
               {userName: user.name});
 

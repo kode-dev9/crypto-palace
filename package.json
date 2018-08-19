@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=development supervisor --ignore ./public,./views ./bin/www",
+    "start-deploy": "NODE_ENV=production ./bin/www",
     "build-wp": "WEBPACK_ENV=build webpack",
     "start-wp": "WEBPACK_ENV=dev webpack --progress --colors --watch"
   },

@@ -68,8 +68,8 @@ module.exports = (io) => {
                     console.log(verificationLink)
                     let verifyMail = async () => {
                       try {
-                        await sendEmail('confiyobo@gmail.com',
-                          'CryptPalace - Account Setup',
+                        await sendEmail(req.body.email,
+                          'Account Setup',
                           'accountVerification',
                           {verificationLink: verificationLink});
 
@@ -84,8 +84,8 @@ module.exports = (io) => {
 
                   let newUserMail = async () => {
                     try {
-                      await sendEmail('confiyobo@gmail.com',
-                        'CryptPalace - New user',
+                      await sendEmail(res.locals.adminMail,
+                        'New user',
                         'newUserAlert');
 
                       console.log('MAIL GREETING')
@@ -173,8 +173,8 @@ module.exports = (io) => {
           console.log(verificationLink)
           let verifyMail = async () => {
             try {
-              await sendEmail('confiyobo@gmail.com',
-                'CryptPalace - Account Verification',
+              await sendEmail(email,
+                'Account Verification',
                 'accountVerification',
                 {verificationLink: verificationLink});
 
@@ -269,8 +269,8 @@ module.exports = (io) => {
 
             let tfaMail = async () => {
               try {
-                await sendEmail('confiyobo@gmail.com',
-                  'CryptPalace - 2 Factor Authentication',
+                await sendEmail(user.email,
+                  '2 Factor Authentication',
                   'tfa',
                   {tfaLink: link});
 

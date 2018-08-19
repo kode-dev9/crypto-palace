@@ -11,12 +11,13 @@
       </div>
       <% include ../../partials/sidebar %>
       <div class="content-body">
-        <packages></packages>
+        <packages :deposit="<%= deposit %>"></packages>
       </div>
     </div>
   </div>
 </div>
 <% include ../../partials/footer %>
+<script src="/js/vendor.min.js"></script>
 <script src="/js/main-bundle.min.js"></script>
 </body>
 </html>

@@ -25,6 +25,7 @@ const User = require('./db/models').User
 const models = require('./db/models')
 app.io = require('socket.io')();
 
+
 app.use((req, res, next) => {
     const settings = {}
 
@@ -302,7 +303,6 @@ app.use((req, res, next) => {
 cron.schedule("* * * * *", function() {
   models.Trade.findAll({
     where: {
-      paymentMade: true,
       status: 1
     }
   }).then(trades => {
@@ -314,6 +314,7 @@ cron.schedule("* * * * *", function() {
       if(currentTime < trade.durationTime){
 
         if(currentTime >= trade.earningStart){
+
           if(trade.totalEarnings < trade.earning){
             //let newEarning = (trade.earning / trade.duration)
 
@@ -322,22 +323,24 @@ cron.schedule("* * * * *", function() {
               }}).then(admin => {
               if(admin){
                 models.Trade.update({
-                  totalEarnings: models.Sequelize.literal('totalEarnings +'+trade.dailyEarnings)
+                  totalEarnings: models.Sequelize.literal('totalEarnings + '+trade.dailyEarnings)
                 }, {where: {id: trade.id}}).then(result => {
+
                   models.Trade.findOne({ where: { id: trade.id}, include: [{model: models.User}]}).then(trade => {
                     if(trade.totalEarnings == trade.earning){
                       models.Trade.update({
-                        status: 4
+                        status: 2
                       }, {where: { id: trade.id}}).then(tradeFinish => {
+                        let tradingBalance = trade.earning + investing;
                         models.Wallet.update({
-                          balance: models.Sequelize.literal('balance + '+trade.earning),
+                          balance: models.Sequelize.literal('balance + '+tradingBalance),
                           completedTransactions: models.Sequelize.literal('completedTransactions + 1'),
                           ongoingTransactions: models.Sequelize.literal('ongoingTransactions - 1')
                         }, {where: {user: trade.User.id}});
                         let notifyMail = async () => {
                           try {
-                            await sendEmail('confiyobo@gmail.com',
-                              'CryptPalace - Transaction Alert',
+                            await sendEmail(admin.email,
+                              'Transaction Alert',
                               'notificationAlert',
                               {});
 
@@ -374,8 +377,8 @@ cron.schedule("* * * * *", function() {
                         //send the mail to the user
                         let notifyMailAdmin = async () => {
                           try {
-                            await sendEmail('confiyobo@gmail.com',
-                              'CryptPalace - Transaction Alert',
+                            await sendEmail(trade.User.email,
+                              'Transaction Alert',
                               'notificationAlert',
                               {});
 
@@ -430,14 +433,14 @@ app.use((req, res, next) => {
 });
 
 //error handler
-// app.use((err, req, res, next) => {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-//
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('errors/error')
-// });
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('errors/error')
+});
 
 module.exports = app;
