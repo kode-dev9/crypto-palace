@@ -7,6 +7,7 @@ const crypto = require('crypto');
 const redis = require('redis');
 
 const client = redis.createClient({host : 'localhost', port : 6379});
+redis.auth("Waplord@777", function (err) { if (err) throw err; });
 
 let generateToken = (user) => {
   return new Promise((resolve, reject) => {

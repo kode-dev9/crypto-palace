@@ -3,6 +3,8 @@ const nodemailer = require('nodemailer'),
   ejs = require('ejs'),
   redisClient = require('redis').createClient({host : 'localhost', port : 6379});
 
+redisClient.auth("Waplord@777", function (err) { if (err) throw err; });
+
 exports.sendEmail = (recipient, subject, template, contextObj = {}) =>{
   new Promise((resolve, reject) => {
     redisClient.get("sett:crypto-palace.siteName", (err, resName) => {

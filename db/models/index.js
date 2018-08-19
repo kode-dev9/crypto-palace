@@ -2,7 +2,7 @@ const fs        = require('fs'),
   path      = require('path'),
   Sequelize = require('sequelize'),
   basename  = path.basename(__filename),
-  env       = process.env.NODE_ENV || 'development',
+  env       = process.env.NODE_ENV || 'production',
   config    = require(__dirname + '/../config/config')[env],
   db        = {};
 

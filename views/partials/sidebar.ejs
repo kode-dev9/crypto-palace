@@ -1,0 +1,42 @@
+<div class="main-menu menu-static menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="main-menu-content">
+    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+        <li class=" nav-item"><a href="/dashboard"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">Dashboard</span></a>
+        </li>
+        <li class=" nav-item"><a href="/profile"><i class="la la-user"></i><span class="menu-title" data-i18n="nav.profile.main">Profile</span></a>
+        </li>
+        <% if (isAdmin) {%>
+            <% if(isGlobalAdmin){ %>
+                <li class=" nav-item"><a href="/transactions"><i class="ft-trending-up"></i><span class="menu-title" data-i18n="nav.transactions.main">Transactions</span></a>
+                </li>
+                <li class=" nav-item"><a href="/admin/setting"><i class="ft-settings"></i><span class="menu-title" data-i18n="nav.settings.main">Settings</span></a>
+                </li>
+                <li class=" nav-item"><a href="/admin/users"><i class="ft-users"></i><span class="menu-title" data-i18n="nav.users.main">Users</span></a>
+                </li>
+            <% } %>
+        <% }else { %>
+            <li class=" nav-item"><a href="/packages"><i class="ft-pocket"></i><span class="menu-title" data-i18n="nav.packages.main">Packages</span><span class="badge badge badge-danger float-right">New</span></a>
+            </li>
+            <li class=" nav-item"><a href="/transactions"><i class="ft-trending-up"></i><span class="menu-title" data-i18n="nav.transactions.main">Transactions</span></a>
+            </li>
+            <li class=" nav-item"><a href="/referrals"><i class="la la-share-alt"></i><span class="menu-title" data-i18n="nav.referral.main">Referral</span></a>
+            </li>
+        <% } %>
+        <% if (isAdmin) {%>
+            <% if(isGlobalAdmin){ %>
+                <li class=" nav-item"><a href="/reviews"><i class="la la-pencil-square"></i><span class="menu-title" data-i18n="nav.reviews.main">Reviews</span></a>
+                </li>
+            <% } %>
+        <% }else { %>
+                <li class=" nav-item"><a href="/reviews"><i class="la la-pencil-square"></i><span class="menu-title" data-i18n="nav.reviews.main">Reviews</span></a>
+                </li>
+        <% } %>
+        <li class=" nav-item">
+            <a href="/support"><i class="la la-support"></i><span class="menu-title" data-i18n="nav.support.main">Support</span></a>
+        </li>
+        <li class=" nav-item">
+        <signout-side></signout-side>
+        </li>
+    </ul>
+    </div>
+</div>

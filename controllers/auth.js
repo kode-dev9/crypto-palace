@@ -7,6 +7,7 @@ const {validateForm} = require('../utils/validation'),
 
 const redis = require('redis');
 const redisClient = redis.createClient({host : 'localhost', port : 6379});
+redisClient.auth("Waplord@777", function (err) { if (err) throw err; });
 
 const { sendEmail } = require('../utils/mail');
 

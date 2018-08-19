@@ -16,6 +16,9 @@ const createError = require('http-errors'),
   {SettingStore} = require('./utils/settingStore'),
     axios = require('axios');
 
+redisClient.auth("Waplord@777", function (err) { if (err) throw err; });
+redis.auth("Waplord@777", function (err) { if (err) throw err; });
+
 const fileUpload = require('express-fileupload');
 const { sendEmail } = require('./utils/mail');
 

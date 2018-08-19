@@ -5,6 +5,7 @@ const models = require('../db/models'),
 
 
 const redisClient = redis.createClient({host : 'localhost', port : 6379});
+redisClient.auth("Waplord@777", function (err) { if (err) throw err; });
 
 module.exports = {
   index: (req, res) => {

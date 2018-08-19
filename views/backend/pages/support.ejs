@@ -1,0 +1,512 @@
+<% include ../../partials/head %>
+<title><%= settings.siteName %> - Dashboard</title>
+</head>
+<body class="vertical-layout vertical-content-menu 2-columns chat-application menu-expanded fixed-navbar"
+      data-open="click" data-menu="vertical-content-menu" data-col="2-columns">
+<div id="app-root">
+  <% include ../../partials/header %>
+  <div class="app-content content">
+    <div class="chat-container mt-4 mb-5">
+      <div class="sidebar-left sidebar-placed">
+        <div class="sidebar">
+          <div class="sidebar-content card d-none d-lg-block">
+            <div class="card-body chat-fixed-search">
+              <fieldset class="form-group position-relative has-icon-left m-0">
+                <input type="text" class="form-control" id="iconLeft4" placeholder="Search user">
+                <div class="form-control-position">
+                  <i class="ft-search"></i>
+                </div>
+              </fieldset>
+            </div>
+            <div id="users-list" class="list-group position-relative">
+              <div class="users-list-padding media-list">
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-online">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-3.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Elizabeth Elliott
+                      <span class="font-small-3 float-right info">4:14 AM</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check primary font-small-2"></i> Okay
+                      <span class="float-right primary"><i class="font-medium-1 icon-pin blue-grey lighten-3"></i></span>
+                    </p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-busy">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-7.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Kristopher Candy
+                      <span class="font-small-3 float-right info">9:04 PM</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check primary font-small-2"></i> Thank you
+                      <span class="float-right primary">
+                      <span class="badge badge-pill badge-danger">12</span>
+                    </span>
+                    </p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-away">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-8.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Sarah Woods
+                      <span class="font-small-3 float-right info">2:14 AM</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check font-small-2"></i> Hello krish!
+                      <span class="float-right primary"><i class="font-medium-1 icon-volume-off blue-grey lighten-3 mr-1"></i>
+                      <span class="badge badge-pill badge-danger">3</span>
+                    </span>
+                    </p>
+                  </div>
+                </a>
+                <a href="#" class="media bg-blue-grey bg-lighten-5 border-right-info border-right-2">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-online">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-7.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Wayne Burton
+                      <span class="font-small-3 float-right info">Today</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check primary font-small-2"></i> Can we connect?</p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-away">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-5.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Sarah Montgomery
+                      <span class="font-small-3 float-right info">Yesterday</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check font-small-2"></i> Will connect you</p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-online">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-9.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Heather Howell
+                      <span class="font-small-3 float-right info">Friday</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check font-small-2"></i> Thank you
+                      <span class="float-right primary">
+                      <span class="badge badge-pill badge-danger">4</span>
+                    </span>
+                    </p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-busy">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-7.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Kelly Reyes
+                      <span class="font-small-3 float-right info">Thrusday</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check font-small-2"></i> I love you </p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-online">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-14.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Vincent Nelson</h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check primary font-small-2"></i> Who you are?</p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-online">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-3.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Elizabeth Elliott
+                      <span class="font-small-3 float-right info">4:14 AM</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check font-small-2"></i> Okay
+                      <span class="float-right primary"><i class="font-medium-1 icon-pin blue-grey lighten-3"></i></span>
+                    </p>
+                  </div>
+                </a>
+                <a href="#" class="media border-0">
+                  <div class="media-left pr-1">
+                  <span class="avatar avatar-md avatar-busy">
+                    <img class="media-object rounded-circle" src="/images/portrait/small/avatar-s-7.png"
+                         alt="Generic placeholder image">
+                    <i></i>
+                  </span>
+                  </div>
+                  <div class="media-body w-100">
+                    <h6 class="list-group-item-heading">Kristopher Candy
+                      <span class="font-small-3 float-right info">9:04 PM</span>
+                    </h6>
+                    <p class="list-group-item-text text-muted mb-0"><i class="ft-check primary font-small-2"></i> Thank you
+                      <span class="float-right primary">
+                      <span class="badge badge-pill badge-danger">12</span>
+                    </span>
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-right">
+        <div class="content-wrapper">
+          <div class="content-header row">
+          </div>
+          <div class="content-body">
+            <section class="chat-app-window">
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              Hello how are you<br>Helo <br>HY
+              <!--<div class="badge badge-default mb-1">Conversation</div>-->
+              <!--<div class="chats">-->
+                <!--<div class="chats">-->
+                  <!---->
+                  <!--&lt;!&ndash;<div class="chat">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-avatar">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title=""&ndash;&gt;-->
+                         <!--&lt;!&ndash;data-original-title="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img src="/images/portrait/small/avatar-s-1.png" alt="avatar"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-body">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>How can we help? We're here for you!</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="chat chat-left">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-avatar">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<a class="avatar" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img src="/images/portrait/small/avatar-s-7.png" alt="avatar"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-body">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Hey John, I am looking for the best admin template.</p>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Could you please help me to find it out?</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>It should be Bootstrap 4 compatible.</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="chat">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-avatar">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title=""&ndash;&gt;-->
+                         <!--&lt;!&ndash;data-original-title="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img src="/images/portrait/small/avatar-s-1.png" alt="avatar"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-body">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Absolutely!</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Modern admin is the responsive bootstrap 4 admin template.</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<p class="time">1 hours ago</p>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="chat chat-left">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-avatar">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<a class="avatar" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img src="/images/portrait/small/avatar-s-7.png" alt="avatar"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-body">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Looks clean and fresh UI.</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>It's perfect for my next project.</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>How can I purchase it?</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="chat">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-avatar">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title=""&ndash;&gt;-->
+                         <!--&lt;!&ndash;data-original-title="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img src="/images/portrait/small/avatar-s-1.png" alt="avatar"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-body">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Thanks, from ThemeForest.</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="chat chat-left">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-avatar">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<a class="avatar" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img src="/images/portrait/small/avatar-s-7.png" alt="avatar"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-body">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>I will purchase it for sure.</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Thanks.</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="chat">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-avatar">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title=""&ndash;&gt;-->
+                         <!--&lt;!&ndash;data-original-title="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img src="/images/portrait/small/avatar-s-1.png" alt="avatar"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="chat-body">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Great, Feel free to get in touch on</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="chat-content">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>https://pixinvent.ticksy.com/</p>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--</div>-->
+              <!--</div>-->
+            </section>
+            <section class="chat-app-form">
+              <form class="chat-app-input d-flex">
+                <fieldset class="form-group position-relative has-icon-left col-10 m-0">
+                  <div class="form-control-position">
+                    <input type="file" style="display: none" accept="image/*" id="qrCode">
+                    <label for="qrCode"><i class="ft-image"></i></label>
+
+                  </div>
+                  <input type="text" class="form-control" id="iconLeft4" placeholder="Type your message">
+                </fieldset>
+                <fieldset class="form-group position-relative has-icon-left col-2 m-0">
+                  <button type="button" class="btn btn-info"><i class="la la-paper-plane-o d-lg-none"></i>
+                    <span class="d-none d-lg-block">Send</span>
+                  </button>
+                </fieldset>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% include ../../partials/footer %>
+<script src="/js/vendor.min.js"></script>
+<script src="/js/main-bundle.min.js"></script>
+</body>
+</html>
