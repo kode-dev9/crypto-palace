@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const redis = require('redis');
 
 const client = redis.createClient({host : 'localhost', port : 6379});
-redis.auth("Waplord@777", function (err) { if (err) throw err; });
+client.auth(process.env.REDIS_PASSWORD, function (err) { if (err) throw err; });
 
 let lostPassToken = (user) => {
   return new Promise((resolve, reject) => {

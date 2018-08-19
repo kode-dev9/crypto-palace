@@ -5,7 +5,7 @@ class SettingService extends redis.RedisClient {
   constructor() {
     super();
     this.client = redis.createClient({host : 'localhost', port : 6379}); //initialize redis client
-    redis.auth("Waplord@777", function (err) { if (err) throw err; });
+    this.client.auth(process.env.REDIS_PASSWORD, function (err) { if (err) throw err; });
   }
 
   get() {

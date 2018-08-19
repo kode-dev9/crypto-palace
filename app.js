@@ -9,15 +9,13 @@ const createError = require('http-errors'),
   methodOverride = require('method-override'),
   session = require('express-session'),
   RedisStore = require("connect-redis")(session),
-  redis = require("redis").createClient(),
   redisClient = require('redis').createClient({host : 'localhost', port : 6379})
   path = require('path'),
   flash = require('connect-flash'),
   {SettingStore} = require('./utils/settingStore'),
     axios = require('axios');
 
-redisClient.auth("Waplord@777", function (err) { if (err) throw err; });
-redis.auth("Waplord@777", function (err) { if (err) throw err; });
+redisClient.auth(process.env.REDIS_PASSWORD, function (err) { if (err) throw err; });
 
 const fileUpload = require('express-fileupload');
 const { sendEmail } = require('./utils/mail');
@@ -104,7 +102,7 @@ var sess = {
   resave: true,
   httpOnly: true,
   cookie: { maxAge: 1200000 },
-  store: new RedisStore({ host: 'localhost', port: 6379, client: redis })
+  store: new RedisStore({ host: 'localhost', port: 6379, client: redisClient })
 };
 app.use(flash());
 app.use(expressSanitizer());

@@ -5,7 +5,7 @@ const {validateForm} = require('../utils/validation'),
 
 const redis = require('redis');
 const redisClient = redis.createClient({host : 'localhost', port : 6379});
-redisClient.auth("Waplord@777", function (err) { if (err) throw err; });
+redisClient.auth(process.env.REDIS_PASSWORD, function (err) { if (err) throw err; });
 
 module.exports = {
   index: (req, res) => {
